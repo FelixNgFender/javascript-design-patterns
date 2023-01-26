@@ -1,0 +1,63 @@
+:root {
+  /* Color palette */
+  --primary-color: #ff6314;
+  --secondary-color: #ffffff;
+  --tertiary-color: #d7d7d7;
+  --quaternary-color: #92bddf;
+  --quinary-color: #5296dd;
+}
+
+html {
+  box-sizing: border-box;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+body {
+  min-height: 100vh;
+  display: grid;
+  grid-template-rows: 1fr 8fr auto;
+
+  font-family: "Roboto", sans-serif;
+}
+
+/* HEADER */
+.header {
+  padding: 20px;
+  display: grid;
+  background-color: var(--quaternary-color);
+  box-shadow: 0 0 15px 0 #00000023;
+}
+
+/* MAIN */
+
+/* FOOTER */
+.footer {
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  padding: var(--spacing-sm);
+}
+
+.fa-github {
+  font-size: 24px;
+  color: black;
+  transition: transform 0.3s ease-in-out;
+}
+
+.fa-github:hover {
+  transform: rotate(360deg) scale(1.2);
+}
+
+/* MODALS */
+
+/* LOADING RING */
+
+/* MEDIA QUERIES */
