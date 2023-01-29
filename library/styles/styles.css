@@ -1,9 +1,9 @@
 :root {
-  --pacific-blue: #53A5B5ff;
+  --pacific-blue: #53a5b5ff;
   --russian-green: #749473ff;
-  --hunter-green: #345F48ff;
-  --blue-munsell: #2D95ACff;
-  --middle-green: #5A875Fff;
+  --hunter-green: #345f48ff;
+  --blue-munsell: #2d95acff;
+  --middle-green: #5a875fff;
   --border-radius: 8px;
   --spacing-xs: 5px;
   --spacing-sm: 10px;
@@ -18,6 +18,7 @@
 
 html {
   box-sizing: border-box;
+  height: 100%;
 }
 
 *,
@@ -29,6 +30,9 @@ html {
 body {
   font-family: "Amaranth", sans-serif;
   background-color: var(--middle-green);
+  min-height: 100%;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
 }
 
 /* HEADER */
@@ -58,7 +62,6 @@ main {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
   width: 100%;
   text-align: center;
   padding: var(--spacing-lg);
@@ -86,7 +89,11 @@ main {
 .main-bookGrid {
   margin-top: var(--spacing-lg);
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  /* 3 columns, 1fr each */
+  grid-template-columns: repeat(
+    auto-fill,
+    minmax(calc(var(--container-width) / 4), 1fr)
+  );
   grid-gap: var(--spacing-lg);
   width: 100%;
 }
@@ -128,6 +135,7 @@ main {
   justify-content: center;
   gap: 10px;
   width: 100%;
+  grid-row: 3 / 4;
 }
 
 .fa-github {
@@ -141,7 +149,101 @@ main {
 }
 
 /* MODALS */
+.modal {
+  position: fixed;
+  z-index: 1;
+  top: 50%;
+  left: 50%;
+  width: 300px;
+  padding: var(--spacing-lg);
+  border-radius: var(--border-radius);
+  text-align: center;
+  transform: translate(-50%, -50%) scale(0);
+  transition: 0.2s ease-in-out;
+}
 
+.modal.active {
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.modal-addBookForm {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-lg);
+  background-color: var(--russian-green);
+  border-radius: var(--border-radius);
+  padding: var(--spacing-lg);
+  box-shadow: var(--shadow);
+  width: 100%;
+  max-width: calc(var(--container-width) / 4);
+}
+
+.modal-addBookForm h3 {
+  font-size: 1.5rem;
+}
+
+.modal-formInput {
+  font-family: "Amaranth", sans-serif;
+  padding: var(--spacing-sm);
+  border: none;
+  border-radius: var(--border-radius);
+  background-color: var(--pacific-blue);
+  font-size: 1rem;
+  text-decoration: none;
+  width: 100%;
+}
+
+.modal-formInput:focus {
+  outline: none;
+}
+
+.modal-isRead {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.modal-checkbox {
+  width: 20px;
+  height: 20px;
+  margin: 4px 0 0;
+  accent-color: white;
+}
+
+.modal-submitBtn {
+  font-family: "Amaranth", sans-serif;
+  padding: var(--spacing-sm);
+  border-radius: var(--border-radius);
+  border: none;
+  background-color: var(--pacific-blue);
+  font-size: 1rem;
+  text-decoration: none;
+  width: 100%;
+}
+
+.modal-submitBtn:hover {
+  background-color: var(--blue-munsell);
+}
+
+.modal-submitBtn:active {
+  background-color: var(--hunter-green);
+}
+
+.modal-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-overlay.active {
+  display: block;
+}
 /* LOADING RING */
 
 /* MEDIA QUERIES */

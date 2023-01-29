@@ -11,7 +11,6 @@
       crossorigin="anonymous"
     ></script>
     <script src="js/library.js" defer></script>
-    <script src="js/video.js" defer></script>
     <link
       rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Amaranth"
@@ -25,80 +24,8 @@
       </div>
     </header>
     <main class="main">
-      <button class="main-addBookBtn">+ Add book</button>
+      <button class="main-addBookBtn" id="main-addBookBtn">+ Add book</button>
       <div class="main-bookGrid" id="main-bookGrid">
-        <div class="main-bookCard">
-          <p>"abc"</p>
-          <p>abc</p>
-          <p>231 pages</p>
-          <div class="main-bookCardBtnGroup">
-            <button class="main-bookCardBtn">Read</button>
-            <button class="main-bookCardBtn">Remove</button>
-          </div>
-        </div>
-        <div class="main-bookCard">
-          <p>"abc"</p>
-          <p>abc</p>
-          <p>231 pages</p>
-          <div class="main-bookCardBtnGroup">
-            <button class="main-bookCardBtn">Read</button>
-            <button class="main-bookCardBtn">Remove</button>
-          </div>
-        </div>
-        <div class="main-bookCard">
-          <p>"abc"</p>
-          <p>abc</p>
-          <p>231 pages</p>
-          <div class="main-bookCardBtnGroup">
-            <button class="main-bookCardBtn">Read</button>
-            <button class="main-bookCardBtn">Remove</button>
-          </div>
-        </div>
-        <div class="main-bookCard">
-          <p>"abc"</p>
-          <p>abc</p>
-          <p>231 pages</p>
-          <div class="main-bookCardBtnGroup">
-            <button class="main-bookCardBtn">Read</button>
-            <button class="main-bookCardBtn">Remove</button>
-          </div>
-        </div>
-        <div class="main-bookCard">
-          <p>"abc"</p>
-          <p>abc</p>
-          <p>231 pages</p>
-          <div class="main-bookCardBtnGroup">
-            <button class="main-bookCardBtn">Read</button>
-            <button class="main-bookCardBtn">Remove</button>
-          </div>
-        </div>
-        <div class="main-bookCard">
-          <p>"abc"</p>
-          <p>abc</p>
-          <p>231 pages</p>
-          <div class="main-bookCardBtnGroup">
-            <button class="main-bookCardBtn">Read</button>
-            <button class="main-bookCardBtn">Remove</button>
-          </div>
-        </div>
-        <div class="main-bookCard">
-          <p>"abc"</p>
-          <p>abc</p>
-          <p>231 pages</p>
-          <div class="main-bookCardBtnGroup">
-            <button class="main-bookCardBtn">Read</button>
-            <button class="main-bookCardBtn">Remove</button>
-          </div>
-        </div>
-        <div class="main-bookCard">
-          <p>"abc"</p>
-          <p>abc</p>
-          <p>231 pages</p>
-          <div class="main-bookCardBtnGroup">
-            <button class="main-bookCardBtn">Read</button>
-            <button class="main-bookCardBtn">Remove</button>
-          </div>
-        </div>
         <div class="main-bookCard">
           <p>"abc"</p>
           <p>abc</p>
@@ -144,5 +71,19 @@
         <i class="fab fa-github"></i
       ></a>
     </footer>
+    <div class="modal" id="modal">
+      <form class="modal-addBookForm" id="modal-addBookForm">
+        <h3>Add new book</h3>
+        <input class="modal-formInput" type="text" id="title" placeholder="Title" required="" maxlength="100">
+        <input class="modal-formInput" type="text" id="author" placeholder="Author" required="" maxlength="100">
+        <input class="modal-formInput" type="number" id="pages" placeholder="Pages" required="" max="10000">
+        <div class="modal-isRead">
+          <label for="isRead">Have you read it?</label>
+          <input class="modal-checkbox" type="checkbox" id="isRead">
+        </div>
+        <button class="modal-submitBtn" type="submit">Submit</button>
+      </form>
+    </div>
+    <div class="modal-overlay" id="modal-overlay"></div>
   </body>
 </html>

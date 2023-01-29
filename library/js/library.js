@@ -1,3 +1,4 @@
+// Data Structures
 const myLibrary = [];
 
 function Book(title, author, pages, read) {
@@ -16,5 +17,26 @@ function addBookToLibrary(book) {
 
 function displayBooks() {
   const bookList = document.querySelector("#book-list");
-  
 }
+
+// User Interface
+const addBookBtn = document.querySelector("#main-addBookBtn");
+const modalOverlay = document.querySelector("#modal-overlay");
+const modal = document.querySelector("#modal");
+addBookBtn.addEventListener("click", () => {
+  modal.classList.add("active");
+  modalOverlay.classList.add("active");
+});
+
+modalOverlay.addEventListener("click", () => {
+  modal.classList.remove("active");
+  modalOverlay.classList.remove("active");
+});
+
+// Local Storage
+
+// Authentication
+
+// Firestore
+
+// Utils
