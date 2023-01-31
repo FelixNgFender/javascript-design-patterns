@@ -25,35 +25,7 @@
     </header>
     <main class="main">
       <button class="main-addBookBtn" id="main-addBookBtn">+ Add book</button>
-      <div class="main-bookGrid" id="main-bookGrid">
-        <div class="main-bookCard">
-          <p>"abc"</p>
-          <p>abc</p>
-          <p>231 pages</p>
-          <div class="main-bookCardBtnGroup">
-            <button class="main-bookCardBtn">Read</button>
-            <button class="main-bookCardBtn">Remove</button>
-          </div>
-        </div>
-        <div class="main-bookCard">
-          <p>"abc"</p>
-          <p>abc</p>
-          <p>231 pages</p>
-          <div class="main-bookCardBtnGroup">
-            <button class="main-bookCardBtn">Read</button>
-            <button class="main-bookCardBtn">Remove</button>
-          </div>
-        </div>
-        <div class="main-bookCard">
-          <p>"abc"</p>
-          <p>abc</p>
-          <p>231 pages</p>
-          <div class="main-bookCardBtnGroup">
-            <button class="main-bookCardBtn">Read</button>
-            <button class="main-bookCardBtn">Remove</button>
-          </div>
-        </div>
-      </div>
+      <div class="main-bookGrid" id="main-bookGrid"></div>
     </main>
     <footer class="footer">
       <p>
@@ -74,12 +46,33 @@
     <div class="modal" id="modal">
       <form class="modal-addBookForm" id="modal-addBookForm">
         <h3>Add new book</h3>
-        <input class="modal-formInput" type="text" id="title" placeholder="Title" required="" maxlength="100">
-        <input class="modal-formInput" type="text" id="author" placeholder="Author" required="" maxlength="100">
-        <input class="modal-formInput" type="number" id="pages" placeholder="Pages" required="" max="10000">
+        <input
+          class="modal-formInput"
+          type="text"
+          id="title"
+          placeholder="Title"
+          required=""
+          maxlength="100"
+        />
+        <input
+          class="modal-formInput"
+          type="text"
+          id="author"
+          placeholder="Author"
+          required=""
+          maxlength="100"
+        />
+        <input
+          class="modal-formInput"
+          type="number"
+          id="pages"
+          placeholder="Pages"
+          required=""
+          max="10000"
+        />
         <div class="modal-isRead">
           <label for="isRead">Have you read it?</label>
-          <input class="modal-checkbox" type="checkbox" id="isRead">
+          <input class="modal-checkbox" type="checkbox" id="isRead" />
         </div>
         <button class="modal-submitBtn" type="submit">Submit</button>
       </form>
