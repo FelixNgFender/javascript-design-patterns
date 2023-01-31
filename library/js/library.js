@@ -46,13 +46,6 @@ function isInLibrary(book) {
   );
 }
 
-function addBookToLibrary(book) {
-  if (isInLibrary(book)) {
-    return;
-  }
-  myLibrary.push(book);
-}
-
 function displayLatestBook() {
   const bookGrid = document.getElementById("main-bookGrid");
   const book = myLibrary[myLibrary.length - 1];
@@ -75,7 +68,10 @@ function displayLatestBook() {
 function addBook(e) {
   e.preventDefault();
   const newBook = getBookFromInput();
-  addBookToLibrary(newBook);
+  if (isInLibrary(newBook)) {
+    return;
+  }
+  myLibrary.push(newBook);
   displayLatestBook();
   closeAllModals();
   addBookForm.reset();
