@@ -11,27 +11,77 @@ function Book(title, author, pages, read) {
   };
 }
 
+// User Interface
+const addBookBtn = document.getElementById("main-addBookBtn");
+const addBookForm = document.getElementById("modal-addBookForm");
+const modalOverlay = document.getElementById("modal-overlay");
+const modal = document.getElementById("modal");
+
+function activateBookModal() {
+  modal.classList.add("active");
+  modalOverlay.classList.add("active");
+}
+
+function closeAllModals() {
+  modal.classList.remove("active");
+  modalOverlay.classList.remove("active");
+  addBookForm.reset();
+}
+
+addBookBtn.addEventListener("click", activateBookModal);
+
+modalOverlay.addEventListener("click", closeAllModals);
+
+function getBookFromInput() {
+  const title = document.getElementById("title").value;
+  const author = document.getElementById("author").value;
+  const pages = document.getElementById("pages").value;
+  const read = document.getElementById("isRead").checked;
+  return new Book(title, author, pages, read);
+}
+
+function isInLibrary(book) {
+  return myLibrary.some(
+    (b) => b.title === book.title && b.author === book.author
+  );
+}
+
 function addBookToLibrary(book) {
+  if (isInLibrary(book)) {
+    return;
+  }
   myLibrary.push(book);
 }
 
-function displayBooks() {
-  const bookList = document.querySelector("#book-list");
+function displayLatestBook() {
+  const bookGrid = document.getElementById("main-bookGrid");
+  const book = myLibrary[myLibrary.length - 1];
+  const bookCard = document.createElement("div");
+  bookCard.classList.add("main-bookCard");
+  bookCard.innerHTML = `
+    <p>"${book.title}"</p>
+    <p>${book.author}</p>
+    <p>${book.pages} pages</p>
+    <div class="main-bookCardBtnGroup">
+      <button class="main-bookCardBtn">${
+        book.read ? "Read" : "Not Read"
+      }</button>
+      <button class="main-bookCardBtn">Remove</button>
+    </div>
+  `;
+  bookGrid.appendChild(bookCard);
 }
 
-// User Interface
-const addBookBtn = document.querySelector("#main-addBookBtn");
-const modalOverlay = document.querySelector("#modal-overlay");
-const modal = document.querySelector("#modal");
-addBookBtn.addEventListener("click", () => {
-  modal.classList.add("active");
-  modalOverlay.classList.add("active");
-});
+function addBook(e) {
+  e.preventDefault();
+  const newBook = getBookFromInput();
+  addBookToLibrary(newBook);
+  displayLatestBook();
+  closeAllModals();
+  addBookForm.reset();
+}
 
-modalOverlay.addEventListener("click", () => {
-  modal.classList.remove("active");
-  modalOverlay.classList.remove("active");
-});
+addBookForm.onsubmit = addBook;
 
 // Local Storage
 
