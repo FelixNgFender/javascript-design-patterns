@@ -4,6 +4,7 @@
   --hunter-green: #345f48ff;
   --blue-munsell: #2d95acff;
   --middle-green: #5a875fff;
+  --red: red;
   --border-radius: 8px;
   --spacing-xs: 5px;
   --spacing-sm: 10px;
@@ -197,6 +198,15 @@ main {
 
 .modal-formInput:focus {
   outline: none;
+}
+
+.modal-errorMsg {
+  display: none;
+  color: var(--red);
+}
+
+.modal-errorMsg.active {
+  display: block;
 }
 
 .modal-isRead {
