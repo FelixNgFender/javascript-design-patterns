@@ -123,6 +123,7 @@ XMarkerBtn.addEventListener("click", () => {
   computer = player("Computer", "O");
   currentTurn = human;
 });
+
 OMarkerBtn.addEventListener("click", () => {
   restartGame();
   OMarkerBtn.classList.add("selected");
@@ -136,7 +137,12 @@ const gameLoop = () => {
   if (currentTurn === computer) {
     const index = computerPlay();
     gameBoard.setBoard(index, computer.getSymbol());
-    getWinner(gameBoard.getBoard());
+    const winner = getWinner(gameBoard.getBoard());
+    if (winner !== undefined) {
+      displayWinner(winner);
+      displayController.renderBoard();
+      return;
+    }
     displayController.renderBoard();
     currentTurn = human;
   }
