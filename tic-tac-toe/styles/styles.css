@@ -1,0 +1,90 @@
+:root {
+  --ice-cold: 160, 210, 235;
+  --freeze-purple: 229, 234, 245;
+  --medium-purple: 208, 189, 244;
+  --purple-pain: 132, 88, 179;
+  --heavy-purple: 162, 128, 137;
+  --border-radius: 8px;
+  --spacing-xs: 5px;
+  --spacing-sm: 10px;
+  --spacing-md: 15px;
+  --spacing-lg: 20px;
+  --spacing-xl: 40px;
+  --container-width: 1200px;
+  --shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+}
+
+/* GLOBAL */
+
+html {
+  box-sizing: border-box;
+  height: 100%;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+body {
+  font-family: "Amaranth", sans-serif;
+  background-color: rgba(var(--ice-cold), 1);
+  min-height: 100%;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+}
+
+/* HEADER */
+.header {
+  display: flex;
+  justify-content: center;
+  background-color: rgba(var(--freeze-purple), 1);
+  box-shadow: var(--shadow);
+}
+
+.header-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: var(--container-width);
+  padding: var(--spacing-lg);
+}
+
+.header-title {
+  font-size: 1.5rem;
+}
+
+/* MAIN */
+.playArea {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  text-align: center;
+  padding: var(--spacing-lg);
+  max-width: var(--container-width);
+  margin: var(--spacing-lg) auto;
+}
+
+/* FOOTER */
+.footer {
+  margin-bottom: var(--spacing-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  grid-row: 3 / 4;
+}
+
+.fa-github {
+  font-size: 20px;
+  color: black;
+  transition: transform 0.3s ease-in-out;
+}
+
+.fa-github:hover {
+  transform: rotate(360deg) scale(1.2);
+}

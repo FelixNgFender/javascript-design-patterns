@@ -10,23 +10,20 @@
       src="https://kit.fontawesome.com/b6b40a3902.js"
       crossorigin="anonymous"
     ></script>
-    <script src="js/library.js" defer></script>
+    <script src="js/ticTacToe.js" defer></script>
     <link
       rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Amaranth"
     />
-    <title>Ghibli Jazz Café</title>
+    <title>Tic Tac Toe</title>
   </head>
   <body>
     <header class="header">
       <div class="header-container">
-        <a class="header-logo" href="#">library | ghibli | jazz</a>
+        <h1 class="header-title">Super Fun Tic Tac Toe</h1>
       </div>
     </header>
-    <main class="main">
-      <button class="main-addBookBtn" id="main-addBookBtn">+ Add book</button>
-      <div class="main-bookGrid" id="main-bookGrid"></div>
-    </main>
+    <main class="playArea"></main>
     <footer class="footer">
       <p>
         Copyright ©
@@ -43,43 +40,5 @@
         <i class="fab fa-github"></i
       ></a>
     </footer>
-    <div class="modal" id="modal">
-      <form class="modal-addBookForm" id="modal-addBookForm">
-        <h3>Add new book</h3>
-        <input
-          class="modal-formInput"
-          type="text"
-          id="title"
-          placeholder="Title"
-          required=""
-          maxlength="100"
-        />
-        <p class="modal-errorMsg" id="modal-errorMsg">
-          Title exists in your library
-        </p>
-        <input
-          class="modal-formInput"
-          type="text"
-          id="author"
-          placeholder="Author"
-          required=""
-          maxlength="100"
-        />
-        <input
-          class="modal-formInput"
-          type="number"
-          id="pages"
-          placeholder="Pages"
-          required=""
-          max="10000"
-        />
-        <div class="modal-isRead">
-          <label for="isRead">Have you read it?</label>
-          <input class="modal-checkbox" type="checkbox" id="isRead" />
-        </div>
-        <button class="modal-submitBtn" type="submit">Submit</button>
-      </form>
-    </div>
-    <div class="modal-overlay" id="modal-overlay"></div>
   </body>
 </html>
