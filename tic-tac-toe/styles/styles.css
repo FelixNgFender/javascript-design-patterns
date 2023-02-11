@@ -11,6 +11,7 @@
   --spacing-lg: 20px;
   --spacing-xl: 40px;
   --container-width: 1200px;
+  --btn-width: 50px;
   --shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
 }
 
@@ -46,7 +47,7 @@ body {
 .header-container {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   width: 100%;
   max-width: var(--container-width);
   padding: var(--spacing-lg);
@@ -56,16 +57,80 @@ body {
   font-size: 1.5rem;
 }
 
-/* MAIN */
+/* GAMEBOARD */
 .playArea {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto 1fr auto;
+  grid-template-areas:
+    "playerX playerO"
+    "board board"
+    "restart restart";
+  justify-items: center;
   align-items: center;
+  gap: var(--spacing-lg);
   width: 100%;
   text-align: center;
   padding: var(--spacing-lg);
   max-width: var(--container-width);
   margin: var(--spacing-lg) auto;
+}
+
+.playArea button {
+  background-color: rgba(var(--freeze-purple), 1);
+  border: 1px solid rgba(var(--purple-pain), 1);
+  border-radius: var(--border-radius);
+  color: rgba(var(--purple-pain), 1);
+  font-weight: 700;
+  height: var(--btn-width);
+  width: 100%;
+  cursor: pointer;
+  transition: all 0.1s ease-in-out;
+}
+
+.playArea button:hover {
+  background-color: rgba(var(--medium-purple), 1);
+  color: rgba(var(--heavy-purple), 1);
+}
+
+.playArea button:active {
+  background-color: rgba(var(--purple-pain), 1);
+  color: rgba(var(--freeze-purple), 1);
+}
+
+.playArea-playerX,
+.playArea-playerO {
+  font-size: 2rem;
+}
+
+.playArea-gridLines {
+  grid-area: board;
+  height: calc(var(--container-width) / 2);
+  width: calc(var(--container-width) / 2);
+  background-color: rgba(var(--purple-pain), 1);
+}
+
+.playArea-gameBoard {
+  height: 100%;
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  gap: var(--spacing-xs);
+}
+
+.playArea-gameBoard button {
+  background-color: rgba(var(--freeze-purple), 1);
+  border: none;
+  color: rgba(var(--purple-pain), 1);
+  border-radius: 0;
+  font-size: 8rem;
+  height: 100%;
+}
+
+.playArea-restart {
+  grid-area: restart;
+  font-size: 1.2rem;
 }
 
 /* FOOTER */
