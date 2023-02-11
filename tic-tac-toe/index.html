@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="styles/styles-reset.css" />
+    <link rel="stylesheet" href="styles/styles.css" />
+    <script
+      src="https://kit.fontawesome.com/b6b40a3902.js"
+      crossorigin="anonymous"
+    ></script>
+    <script src="js/library.js" defer></script>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Amaranth"
+    />
+    <title>Ghibli Jazz Café</title>
+  </head>
+  <body>
+    <header class="header">
+      <div class="header-container">
+        <a class="header-logo" href="#">library | ghibli | jazz</a>
+      </div>
+    </header>
+    <main class="main">
+      <button class="main-addBookBtn" id="main-addBookBtn">+ Add book</button>
+      <div class="main-bookGrid" id="main-bookGrid"></div>
+    </main>
+    <footer class="footer">
+      <p>
+        Copyright ©
+        <script>
+          document.write(new Date().getFullYear());
+        </script>
+        FelixNgFender
+      </p>
+      <a
+        href="https://github.com/FelixNgFender"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <i class="fab fa-github"></i
+      ></a>
+    </footer>
+    <div class="modal" id="modal">
+      <form class="modal-addBookForm" id="modal-addBookForm">
+        <h3>Add new book</h3>
+        <input
+          class="modal-formInput"
+          type="text"
+          id="title"
+          placeholder="Title"
+          required=""
+          maxlength="100"
+        />
+        <p class="modal-errorMsg" id="modal-errorMsg">
+          Title exists in your library
+        </p>
+        <input
+          class="modal-formInput"
+          type="text"
+          id="author"
+          placeholder="Author"
+          required=""
+          maxlength="100"
+        />
+        <input
+          class="modal-formInput"
+          type="number"
+          id="pages"
+          placeholder="Pages"
+          required=""
+          max="10000"
+        />
+        <div class="modal-isRead">
+          <label for="isRead">Have you read it?</label>
+          <input class="modal-checkbox" type="checkbox" id="isRead" />
+        </div>
+        <button class="modal-submitBtn" type="submit">Submit</button>
+      </form>
+    </div>
+    <div class="modal-overlay" id="modal-overlay"></div>
+  </body>
+</html>
