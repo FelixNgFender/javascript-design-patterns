@@ -1,3 +1,11 @@
+/**
+ * @fileoverview Tic Tac Toe app
+ * @author Thinh Nguyen
+ * @version 1.5.0
+ */
+
+"use strict";
+
 // Data Structures
 const gameBoard = (() => {
   const board = ["", "", "", "", "", "", "", "", ""];
