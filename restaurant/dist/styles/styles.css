@@ -1,0 +1,139 @@
+:root {
+  --passionate-red: 191, 5, 55;
+  --nostalgic-yellow: 242, 233, 107;
+  --soft-gray: 237, 196, 178;
+  --yello-range: 242, 174, 114;
+  --dark-black: 89, 2, 2;
+  --sharp-white: 255, 255, 255;
+  --vista-blue: 138, 166, 198;
+  --steel-blue: 50, 129, 178;
+  --yinmn-blue: 57, 85, 158;
+  --border-radius: 8px;
+  --spacing-xs: 5px;
+  --spacing-sm: 10px;
+  --spacing-md: 15px;
+  --spacing-lg: 20px;
+  --spacing-xl: 40px;
+  --container-width: 1200px;
+  --footer-height: 40px;
+  --btn-height: 50px;
+  --shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+}
+
+/* GLOBAL */
+@font-face {
+  font-family: "Griffo Classico";
+  src: local("Griffo Classico Bold"), local("Griffo-Classico-Bold"),
+    url("GriffoClassicoBold.woff2") format("woff2"),
+    url("GriffoClassicoBold.woff") format("woff"),
+    url("GriffoClassicoBold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+}
+
+html {
+  box-sizing: border-box;
+  height: 100%;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+body {
+  background-image: url("../assets/bennyRestaurant.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: 35%;
+  min-height: 100%;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+}
+
+/* HEADER */
+.header {
+  display: flex;
+  justify-content: center;
+  background-color: rgba(var(--nostalgic-yellow), 0.8);
+  box-shadow: var(--shadow);
+}
+
+.header-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: var(--container-width);
+  padding: var(--spacing-lg);
+}
+
+.header-title {
+  font-family: "Griffo Classico", sans-serif;
+  font-size: 3rem;
+  color: rgba(var(--yinmn-blue), 1);
+  font-size: 1.5rem;
+}
+
+/* NAVBAR */
+.main {
+  font-family: "Alegreya", sans-serif;
+  font-size: 1.2rem;
+  color: rgba(var(--dark-black), 1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: var(--container-width);
+  margin: 0 auto;
+  background-color: rgba(var(--yello-range), 0.8);
+}
+
+.main-navbar {
+  width: 100%;
+  height: var(--btn-height);
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  box-shadow: var(--shadow);
+}
+
+.main-navbar-item {
+  font-family: "Alegreya", sans-serif;
+  color: rgba(var(--yinmn-blue, 1));
+  font-size: 1.2rem;
+  cursor: pointer;
+  border: none;
+  background-color: rgba(var(--yello-range), 0.8);
+  transition: all 0.3s ease-in-out;
+}
+
+.main-navbar-item:hover,
+.main-navbar-item:active {
+  background-color: rgba(var(--nostalgic-yellow), 0.8);
+}
+
+/* FOOTER */
+.footer {
+  padding-bottom: var(--spacing-xs);
+  height: var(--footer-height);
+  background-color: rgba(var(--soft-gray), 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  grid-row: 3 / 4;
+}
+
+.fa-github {
+  font-size: 20px;
+  margin-top: 4px;
+  color: black;
+  transition: transform 0.3s ease-in-out;
+}
+
+.fa-github:hover {
+  transform: rotate(360deg) scale(1.2);
+}

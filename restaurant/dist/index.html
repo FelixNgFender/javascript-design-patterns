@@ -4,10 +4,79 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script src="./main.js" defer></script>
-    <title>Restaurant</title>
+    <script src="./js/main.js" defer></script>
+    <link rel="stylesheet" href="./styles/styles-reset.css" />
+    <link rel="stylesheet" href="./styles/styles.css" />
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Alegreya&display=swap');
+    </style>
+    <script
+      src="https://kit.fontawesome.com/b6b40a3902.js"
+      crossorigin="anonymous"
+    ></script>
+    <title>Seishun Buta Yarou Restaurant</title>
   </head>
   <body>
-    <div id="content"></div>
+    <header class="header">
+      <div class="header-container">
+        <h1 class="header-title">Seishun Buta Yarou Restaurant</h1>
+      </div>
+    </header>
+    <main class="main">
+      <nav class="main-navbar">
+        <button class="main-navbar-item">Home</button>
+        <button class="main-navbar-item">Menu</button>
+        <button class="main-navbar-item">Contact</button>
+      </nav>
+      <section class="main-menu">
+        <div class="main-menu-container">
+          <div class="main-menu-item">
+            <h3 class="main-menu-item-title">Ramen</h3>
+            <p class="main-menu-item-description">
+              Ramen is a Japanese noodle soup dish. It consists of Chinese
+              wheat noodles served in a meat or (occasionally) fish-based broth,
+              often flavored with soy sauce or miso, and uses toppings such as
+              sliced pork (叉焼 chāshū), dried seaweed (海苔 nori), kamaboko, and
+              green onions.
+            </p>
+          </div>
+          <div class="main-menu-item">
+            <h3 class="main-menu-item-title">Sushi</h3>
+            <p class="main-menu-item-description">
+              Sushi is a Japanese dish of prepared vinegared rice, usually with
+              some sugar and salt, accompanying a variety of ingredients, such as
+              seafood, often raw, and vegetables. Styles of sushi and its
+              presentation vary widely, but the one key ingredient is "sushi
+              rice", also referred to as shari, or sumeshi.
+            </p>
+          </div>
+          <div class="main-menu-item">
+            <h3 class="main-menu-item-title">Sashimi</h3>
+            <p class="main-menu-item-description">
+              Sashimi is a Japanese dish of sliced raw fish or other meat. It is
+              usually served with condiments such as soy sauce, wasabi, and
+              pickled ginger. Sashimi is often served as an appetizer, but it can
+              be a meal in itself. It is also a common component of bento boxes.
+            </p>
+          </div>
+        </div>
+      </section>
+    </main>
+    <footer class="footer">
+      <p>
+        Copyright ©
+        <script>
+          document.write(new Date().getFullYear());
+        </script>
+        FelixNgFender
+      </p>
+      <a
+        href="https://github.com/FelixNgFender"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <i class="fab fa-github"></i
+      ></a>
+    </footer>
   </body>
 </html>
