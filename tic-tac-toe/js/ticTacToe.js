@@ -17,7 +17,6 @@ const gameBoard = (() => {
     for (let i = 0; i < 9; i++) {
       board[i] = "";
     }
-    result = "";
   };
   return { getBoard, setBoard, resetBoard };
 })();
