@@ -6,6 +6,8 @@
 
 "use strict";
 
+import { decorateText } from "./typography";
+
 /**
  * Create the header component.
  * @return {HTMLElement} Header element
@@ -17,7 +19,7 @@ function header() {
   header.classList.add("header");
   headerContainer.classList.add("header-container");
   headerTitle.classList.add("header-title");
-  headerTitle.textContent = "Seishun Buta Yarou Restaurant";
+  headerTitle.innerHTML = decorateText("Seishun Buta Yarou Restaurant").innerHTML;
   headerContainer.appendChild(headerTitle);
   header.appendChild(headerContainer);
   return header;

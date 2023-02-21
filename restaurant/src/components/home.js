@@ -6,6 +6,8 @@
 
 "use strict";
 
+import { decorateText } from "./typography";
+
 /**
  * Create the home component.
  * @return {HTMLElement} Home component
@@ -16,7 +18,7 @@ export default function home() {
   home.classList.add("main-home");
   const homeTitle = document.createElement("h2");
   homeTitle.classList.add("main-home-title");
-  homeTitle.textContent = "Welcome to Benny's";
+  homeTitle.innerHTML = decorateText("Welcome to Benny's").innerHTML;
   home.appendChild(homeTitle);
   const homeDescription = document.createElement("p");
   homeDescription.classList.add("main-home-description");
