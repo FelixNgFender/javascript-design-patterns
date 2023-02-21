@@ -17,6 +17,8 @@
   --container-width: 1200px;
   --footer-height: 40px;
   --btn-height: 50px;
+  --img-height: 300px;
+  --menu-item-height: 400px;
   --shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
 }
 
@@ -72,7 +74,6 @@ body {
 
 .header-title {
   font-family: "Griffo Classico", sans-serif;
-  font-size: 3rem;
   color: rgba(var(--yinmn-blue), 1);
   font-size: 1.5rem;
 }
@@ -105,7 +106,7 @@ body {
   font-size: 1.2rem;
   cursor: pointer;
   border: none;
-  background-color: rgba(var(--yello-range), 0.8);
+  background-color: rgba(var(--yello-range), 1);
   transition: all 0.3s ease-in-out;
 }
 
@@ -114,11 +115,53 @@ body {
   background-color: rgba(var(--nostalgic-yellow), 0.8);
 }
 
+/* MENU */
+.main-menu-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  grid-gap: var(--spacing-lg);
+  padding: var(--spacing-lg);
+}
+
+.main-menu-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: rgba(var(--nostalgic-yellow), 1);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow);
+  transition: all 0.3s ease-in-out;
+}
+
+.main-menu-item:hover {
+  transform: scale(1.03);
+}
+
+.main-menu-item-img {
+  width: 100%;
+  height: var(--img-height);
+  object-fit: cover;
+  border-radius: var(--border-radius) var(--border-radius) 0 0;
+}
+
+.main-menu-item-title {
+  font-family: "Griffo Classico", sans-serif;
+  color: rgba(var(--yinmn-blue), 1);
+  font-size: 1.5rem;
+  margin: var(--spacing-sm) 0;
+}
+
+.main-menu-item-description {
+  color: rgba(var(--dark-black), 1);
+  font-size: 1rem;
+  margin: var(--spacing-sm);
+}
+
 /* FOOTER */
 .footer {
   padding-bottom: var(--spacing-xs);
   height: var(--footer-height);
-  background-color: rgba(var(--soft-gray), 0.7);
+  background-color: rgba(var(--soft-gray), 0.8);
   display: flex;
   align-items: center;
   justify-content: center;
