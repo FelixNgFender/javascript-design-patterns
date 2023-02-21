@@ -111,14 +111,45 @@ body {
 }
 
 .main-navbar-item:hover,
-.main-navbar-item:active {
+.main-navbar-item:active,
+.main-navbar-item:focus {
   background-color: rgba(var(--nostalgic-yellow), 0.8);
+}
+
+/* HOME */
+.main-home {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  max-width: var(--container-width);
+  margin: 0 auto;
+  padding: var(--spacing-lg);
+  background-color: rgba(var(--nostalgic-yellow), 1);
+}
+
+.main-home-title {
+  font-family: "Griffo Classico", sans-serif;
+  color: rgba(var(--yinmn-blue), 1);
+  font-size: 2rem;
+  margin: var(--spacing-lg) 0;
+}
+
+.main-home-description {
+  color: rgba(var(--dark-black), 1);
+  font-size: 1.5rem;
+  line-height: 2;
+  max-width: calc(var(--container-width) / 1.5);
 }
 
 /* MENU */
 .main-menu-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  grid-template-columns: repeat(
+    auto-fit,
+    minmax(calc(var(--container-width) / 3), 1fr)
+  );
   grid-gap: var(--spacing-lg);
   padding: var(--spacing-lg);
 }
@@ -155,6 +186,20 @@ body {
   color: rgba(var(--dark-black), 1);
   font-size: 1rem;
   margin: var(--spacing-sm);
+}
+
+/* CONTACT */
+.main-contact {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+  font-size: 1.5rem;
+  width: 100%;
+  height: 100%;
+  max-width: var(--container-width);
+  margin: 0 auto;
+  padding: var(--spacing-lg);
+  background-color: rgba(var(--nostalgic-yellow), 1);
 }
 
 /* FOOTER */
