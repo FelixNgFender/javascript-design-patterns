@@ -12,6 +12,17 @@ import pageLoad from "./components/pageLoad";
 import createMenuComponent from "./components/menu/menu";
 import createHomeComponent from "./components/home";
 import createContactComponent from "./components/contact";
+import faviconLink from "./assets/favicon.png";
+
+// Dynamically change favicon
+let iconLink = document.querySelector("link[rel*='icon']");
+if (!iconLink) {
+  iconLink = document.createElement("link");
+  iconLink.rel = "icon";
+  document.head.appendChild(iconLink);
+}
+iconLink.href = faviconLink;
+
 
 /**
  * Purge the content of the active tab in main.
