@@ -4,6 +4,7 @@ module.exports = {
   mode: "development",
   entry: {
     index: "./restaurant/src/index.js",
+    typography: "./restaurant/src/components/typography.js",
     pageLoad: "./restaurant/src/components/pageLoad.js",
     menu: "./restaurant/src/components/menu/menu.js",
     home: "./restaurant/src/components/home.js",
