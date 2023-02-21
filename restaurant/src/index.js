@@ -5,10 +5,13 @@
  */
 
 "use strict";
-import pageLoad from "./pageLoad";
-import createMenuComponent from "./menu";
-import createHomeComponent from "./home";
-import createContactComponent from "./contact";
+import "./styles/styles-reset.css";
+import "./styles/styles.css";
+
+import pageLoad from "./components/pageLoad";
+import createMenuComponent from "./components/menu/menu";
+import createHomeComponent from "./components/home";
+import createContactComponent from "./components/contact";
 
 /**
  * Purge the content of the active tab in main.
