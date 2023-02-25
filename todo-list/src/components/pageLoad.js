@@ -35,16 +35,18 @@ function main() {
   
   const dummyProjectCheckbox = document.createElement("input");
   const dummyProject = document.createElement("li");
-  const dymmyProjectTitle = document.createElement("h2");
+  const dummyProjectTitle = document.createElement("h2");
+  const dummyProjectExpandBtn = document.createElement("button");
   const dummyProjectDeleteBtn = document.createElement("button");
   const sortTaskWrapper = document.createElement("div");
   const sortTaskByPriorityBtn = document.createElement("button");
   const sortTaskByDateBtn = document.createElement("button");
-  const dymmyProjectTaskList = document.createElement("ul");
+  const dummyProjectTaskList = document.createElement("ul");
 
-  const dymmyTask = document.createElement("li");
+  const dummyTask = document.createElement("li");
   const dummyTaskCheckbox = document.createElement("input");
 
+  const dummyTaskHeaderWrapper = document.createElement("div");
   const dummyTaskTitle = document.createElement("span");
   const dummyTaskDate = document.createElement("span");
   const dummyTaskExpandBtn = document.createElement("button");
@@ -59,16 +61,18 @@ function main() {
   dummyProjectCheckbox.classList.add("main-project-checkbox");
   dummyProjectCheckbox.type = "checkbox";
   dummyProject.classList.add("main-project");
-  dymmyProjectTitle.classList.add("main-project-title");
+  dummyProjectTitle.classList.add("main-project-title");
+  dummyProjectExpandBtn.classList.add("main-project-expandBtn");
   dummyProjectDeleteBtn.classList.add("main-project-deleteBtn");
   sortTaskWrapper.classList.add("main-project-sortTaskWrapper");
   sortTaskByPriorityBtn.classList.add("main-project-sortBtn");
   sortTaskByDateBtn.classList.add("main-project-sortBtn");
-  dymmyProjectTaskList.classList.add("main-project-taskList");
+  dummyProjectTaskList.classList.add("main-project-taskList");
 
-  dymmyTask.classList.add("main-task");
+  dummyTask.classList.add("main-task");
   dummyTaskCheckbox.classList.add("main-task-checkbox");
   dummyTaskCheckbox.type = "checkbox";
+  dummyTaskHeaderWrapper.classList.add("main-task-headerWrapper");
   dummyTaskTitle.classList.add("main-task-title");
   dummyTaskDate.classList.add("main-task-date");
   dummyTaskExpandBtn.classList.add("main-task-expandBtn");
@@ -82,7 +86,8 @@ function main() {
   });
   main.appendChild(mainNavbar);
   
-  dymmyProjectTitle.textContent = "Project 1";
+  dummyProjectTitle.textContent = "Project 1";
+  dummyProjectExpandBtn.textContent = "Expand";
   dummyProjectDeleteBtn.textContent = "Delete";
   sortTaskByPriorityBtn.textContent = "Sort by priority";
   sortTaskByDateBtn.textContent = "Sort by date";
@@ -93,18 +98,20 @@ function main() {
 
   projectList.appendChild(dummyProject);
   dummyProject.appendChild(dummyProjectCheckbox);
-  dummyProject.appendChild(dymmyProjectTitle);
+  dummyProject.appendChild(dummyProjectTitle);
+  dummyProject.appendChild(dummyProjectExpandBtn);
   dummyProject.appendChild(dummyProjectDeleteBtn);
   dummyProject.appendChild(sortTaskWrapper);
   sortTaskWrapper.appendChild(sortTaskByPriorityBtn);
   sortTaskWrapper.appendChild(sortTaskByDateBtn);
-  dummyProject.appendChild(dymmyProjectTaskList);
-  dymmyProjectTaskList.appendChild(dymmyTask);
-  dymmyTask.appendChild(dummyTaskCheckbox);
-  dymmyTask.appendChild(dummyTaskTitle);
-  dymmyTask.appendChild(dummyTaskDate);
-  dymmyTask.appendChild(dummyTaskExpandBtn);
-  dymmyTask.appendChild(dummyTaskDeleteBtn);
+  dummyProject.appendChild(dummyProjectTaskList);
+  dummyProjectTaskList.appendChild(dummyTask);
+  dummyTask.appendChild(dummyTaskCheckbox);
+  dummyTask.appendChild(dummyTaskHeaderWrapper);
+  dummyTaskHeaderWrapper.appendChild(dummyTaskTitle);
+  dummyTaskHeaderWrapper.appendChild(dummyTaskDate);
+  dummyTaskHeaderWrapper.appendChild(dummyTaskExpandBtn);
+  dummyTask.appendChild(dummyTaskDeleteBtn);
 
   main.appendChild(projectList);
   return main;
