@@ -7,8 +7,8 @@
 "use strict";
 
 import pageLoad from "./components/pageLoad";
-import createPendingComponent from "./components/pending/pending";
-import createArchiveComponent from "./components/archive/archive";
+import renderPendingComponent, { refreshProjectList, refreshTaskList } from "./components/pending/pending";
+import renderArchiveComponent from "./components/archive/archive";
 
 import "./styles/styles.css";
 import "./styles/styles-reset.css";
@@ -29,19 +29,6 @@ const pendingProjects = [];
 const completedProjects = [];
 
 /**
- * Add a new task to the project
- * @param {project} projectObj Associated project object 
- */
-export function addTask(projectObj) {
-  const form = document.getElementById("main-addTaskForm" + projectObj.id);
-  const newTask = getTaskFromInput(projectObj);
-  projectObj.tasks.push(newTask);
-  renderProjects();
-  console.log(pendingProjects);
-  form.reset();
-}
-
-/**
  * Get task data from user-input form.
  * @param {project} projectObj Associated project object
  * @return {task} Task object
@@ -56,6 +43,17 @@ function getTaskFromInput(projectObj) {
   const dueDate = form.elements["dueDate"].value;
   const completed = false;
   return task(title, description, priority, projectId, id, dueDate, completed);
+}
+
+/**
+ * Add a new task to the project
+ * @param {project} projectObj Associated project object 
+ * @return {void}
+ */
+export function addTask(projectObj) {
+  const newTask = getTaskFromInput(projectObj);
+  projectObj.tasks.push(newTask);
+  refreshTaskList(projectObj);
 }
 
 /**
@@ -78,36 +76,9 @@ function getProjectFromInput() {
  * @return {void}
  */
 export function addProject() {
-  const form = document.getElementById("main-addProjectForm");
   const newProject = getProjectFromInput();
   pendingProjects.push(newProject);
-  renderProjects();
-  console.log(pendingProjects);
-  form.reset();
-}
-
-/**
- * Remove a project from the pending project list and refresh the project list.
- * @param {HTMLElement} projectElement Project element to be removed
- */
-export function removeProject(projectElement) {
-  const projectPriority = projectElement.dataset.priority;
-  pendingProjects.splice(projectPriority, 1);
-  pendingProjects.forEach((project, index) => {
-    project.priority = index;
-  });
-  renderProjects();
-  console.log(pendingProjects);
-}
-
-/**
- * Render the project list.
- * @return {void}
- */
-function renderProjects() {
-  const main = document.getElementById("main");
-  purgeActiveTab();
-  main.appendChild(createPendingComponent(pendingProjects));
+  refreshProjectList(pendingProjects);
 }
 
 /**
@@ -142,16 +113,16 @@ function purgeActiveTab() {
 function tabSwitch() {
   const main = document.getElementById("main");
   const tabs = document.querySelectorAll(".main-navbar-item");
-  main.appendChild(createPendingComponent(pendingProjects));
+  main.appendChild(renderPendingComponent(pendingProjects));
   tabs.forEach((tab) => {
     tab.addEventListener("click", () => {
       purgeActiveTab();
       switch (tab.textContent) {
         case "Pending":
-          main.appendChild(createPendingComponent(pendingProjects));
+          main.appendChild(renderPendingComponent(pendingProjects));
           break;
         case "Archive":
-          main.appendChild(createArchiveComponent(completedProjects));
+          main.appendChild(renderArchiveComponent(completedProjects));
           break;
       }
     });

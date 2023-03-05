@@ -204,24 +204,6 @@ body {
 }
 
 /* MAIN - ADD TASK */
-.main-addTaskBtn {
-  height: calc(var(--btn-height) / 2);
-  width: 100%;
-  font-family: "Roboto", sans-serif;
-  color: rgba(var(--yinmn-blue, 1));
-  font-size: 0.8rem;
-  cursor: pointer;
-  border: none;
-  background-color: rgba(var(--nostalgic-yellow), 0.5);
-  transition: all 0.3s ease-in-out;
-}
-
-.main-addTaskBtn:hover,
-.main-addTaskBtn:active,
-.main-addTaskBtn:focus {
-  background-color: rgba(var(--nostalgic-yellow), 0.8);
-}
-
 .main-addTaskForm {
   width: 100%;
   height: var(--popup-height);
@@ -319,12 +301,30 @@ body {
   height: var(--btn-height);
 }
 
+.main-addTaskBtn {
+  grid-column: 2 / -1;
+  height: calc(var(--btn-height) / 2);
+  width: 100%;
+  font-family: "Roboto", sans-serif;
+  color: rgba(var(--yinmn-blue, 1));
+  font-size: 0.8rem;
+  cursor: pointer;
+  border: none;
+  background-color: rgba(var(--nostalgic-yellow), 0.5);
+  transition: all 0.3s ease-in-out;
+}
+
+.main-addTaskBtn:hover,
+.main-addTaskBtn:active,
+.main-addTaskBtn:focus {
+  background-color: rgba(var(--nostalgic-yellow), 0.8);
+}
+
 .main-project-taskList {
-  grid-column: 1 / -1;
+  grid-column: 2 / -1;
   display: flex;
   flex-direction: column;
   gap: var(--spacing-sm);
-  padding-left: calc(var(--checkbox-size) + var(--spacing-sm));
 }
 
 .main-task {

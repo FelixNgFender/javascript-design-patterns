@@ -6,19 +6,19 @@
 
 "use strict";
 
-import { removeProject as removeProject } from "../../index";
 import { addTask as addTask } from "../../index";
 
 import deleteIcon from "./delete_FILL0_wght400_GRAD0_opsz48.svg";
 import expandIconMore from "./expand_more_FILL0_wght400_GRAD0_opsz48.svg";
-import expandIconLess from "./expand_less_FILL0_wght400_GRAD0_opsz48.svg";
 
 /**
  * Create a task component.
- * @param {Object} taskObj Task object
- * @return {HTMLElement} Task element
+ * @param {Number} index Index of task in task array
+ * @param {Array} taskArr Array of tasks
+ * @return {HTMLElement} Task component
  */
-function task(taskObj) {
+function task(index, taskArr) {
+  const taskObj = taskArr[index];
   const task = document.createElement("li");
   const taskCheckbox = document.createElement("input");
   const taskHeaderWrapper = document.createElement("div");
@@ -47,6 +47,13 @@ function task(taskObj) {
   taskDate.attributes["contenteditable"] = "true";
   taskExpandBtn.textContent = "EXPAND";
   taskDeleteBtn.textContent = "DELETE";
+  taskDeleteBtn.addEventListener("click", () => {
+    taskArr.splice(index, 1);
+    taskArr.forEach((task, i) => {
+      task.priority = i;
+    });
+    task.remove();
+  });
 
   taskExpandIcon.src = expandIconMore;
   taskDeleteIcon.src = deleteIcon;
@@ -72,7 +79,7 @@ function task(taskObj) {
 /**
  * Create a popup component to add a new task associated with
  * the input project object.
- * @param {project} projectObj Associated project object 
+ * @param {project} projectObj Associated project object
  * @return {HTMLElement} Add task element
  */
 function addTaskPopup(projectObj) {
@@ -138,6 +145,7 @@ function addTaskBtn(projectObj) {
     const taskList = document.getElementById(
       "main-project-taskList-" + projectObj.id
     );
+    console.log(taskList);
     taskList.appendChild(addTaskPopup(projectObj));
   });
 
@@ -148,18 +156,17 @@ function addTaskBtn(projectObj) {
  * Create a task list component associated with a project.
  * @param {project} projectObj Associated project object
  * @return {HTMLElement} Task list element
+ * @export
  */
-function taskList(projectObj) {
+export function taskList(projectObj) {
   const taskList = document.createElement("ul");
-  const addTaskBtnComponent = addTaskBtn(projectObj);
   const taskArr = projectObj.tasks;
 
   taskList.classList.add("main-project-taskList");
   taskList.id = "main-project-taskList-" + projectObj.id;
 
-  taskList.appendChild(addTaskBtnComponent);
   for (let i = 0; i < taskArr.length; i++) {
-    const taskComponent = task(taskArr[i]);
+    const taskComponent = task(i, taskArr);
     taskList.appendChild(taskComponent);
   }
 
@@ -190,10 +197,12 @@ function sortComponent() {
 
 /**
  * Create a project component.
- * @param {project} projectObj Associated project object
+ * @param {number} index Index of project in project array
+ * @param {Array} projectArr Associated project object array
  * @return {HTMLElement} Project element
  */
-function project(projectObj) {
+function project(index, projectArr) {
+  const projectObj = projectArr[index];
   const project = document.createElement("li");
   const projectCheckbox = document.createElement("input");
   const projectTitle = document.createElement("div");
@@ -204,6 +213,7 @@ function project(projectObj) {
   const projectDeleteIcon = document.createElement("img");
 
   const sortTaskComponent = sortComponent();
+  const addTaskBtnComponent = addTaskBtn(projectObj);
   const projectTaskList = taskList(projectObj);
 
   project.classList.add("main-project");
@@ -216,7 +226,7 @@ function project(projectObj) {
   projectExpandIcon.classList.add("main-icons");
   projectDeleteIcon.classList.add("main-icons");
 
-  project.dataset.priority = projectObj.priority;
+  project.id = "main-project-" + projectObj.id;
   projectCheckbox.checked = projectObj.completed;
   projectTitle.textContent = projectObj.title;
   projectTitle.attributes["contenteditable"] = true;
@@ -225,7 +235,11 @@ function project(projectObj) {
   projectExpandBtn.textContent = "EXPAND";
   projectDeleteBtn.textContent = "DELETE";
   projectDeleteBtn.addEventListener("click", () => {
-    removeProject(project);
+    projectArr.splice(index, 1);
+    projectArr.forEach((project, i) => {
+      project.priority = i;
+    });
+    project.remove();
   });
 
   projectExpandIcon.src = expandIconMore;
@@ -239,6 +253,7 @@ function project(projectObj) {
   projectExpandBtn.appendChild(projectExpandIcon);
   projectDeleteBtn.appendChild(projectDeleteIcon);
   project.appendChild(sortTaskComponent);
+  project.appendChild(addTaskBtnComponent);
   project.appendChild(projectTaskList);
 
   return project;
@@ -256,7 +271,7 @@ export default function projectList(projectArr) {
   projectList.id = "main-projectList";
 
   for (let i = 0; i < projectArr.length; i++) {
-    const projectComponent = project(projectArr[i]);
+    const projectComponent = project(i, projectArr);
     projectList.appendChild(projectComponent);
   }
 
