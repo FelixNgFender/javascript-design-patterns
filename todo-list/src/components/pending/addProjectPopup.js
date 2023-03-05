@@ -9,35 +9,27 @@
 import { addProject } from "../../index";
 
 /**
- * Attach an popup to add a new project to the project list if there is not one.
- * @return {void}
- * @export
+ * Create an add project form component.
+ * @return {HTMLElement} Add project form
  */
 export function addProjectPopup() {
-  const projectList = document.getElementById("main-projectList");
-
-  if (document.getElementById("main-addProjectForm")) {
-    return;
-  }
-
   const addProjectForm = document.createElement("form");
-  const projectName = document.createElement("input");
+  const projectTitle = document.createElement("input");
   const projectDescription = document.createElement("textarea");
-
   const confirmBtn = document.createElement("button");
   const cancelBtn = document.createElement("button");
 
   addProjectForm.classList.add("main-addProjectForm");
   addProjectForm.id = "main-addProjectForm";
-  projectName.classList.add("main-addProjectForm-projectName");
-  projectDescription.classList.add("main-addProjectForm-projectDescription");
-  confirmBtn.classList.add("main-addProjectForm-confirmBtn");
-  cancelBtn.classList.add("main-addProjectForm-cancelBtn");
+  projectTitle.classList.add("main-addProjectForm-title");
+  projectDescription.classList.add("main-addProjectForm-description");
+  confirmBtn.classList.add("main-addProjectForm-confirm");
+  cancelBtn.classList.add("main-addProjectForm-cancel");
 
-  projectName.type = "text";
-  projectName.placeholder = "Project Name";
-  projectName.name = "title";
-  projectName.required = true;
+  projectTitle.type = "text";
+  projectTitle.placeholder = "Project Name";
+  projectTitle.name = "title";
+  projectTitle.required = true;
   projectDescription.placeholder = "Project Description";
   projectDescription.name = "description";
   confirmBtn.type = "submit";
@@ -45,22 +37,21 @@ export function addProjectPopup() {
   cancelBtn.type = "button";
   cancelBtn.textContent = "Cancel";
 
-  cancelBtn.addEventListener("click", () => {
-    addProjectForm.remove();
-  });
-
   addProjectForm.onsubmit = (e) => {
     e.preventDefault();
     addProject();
     addProjectForm.remove();
   };
+  cancelBtn.addEventListener("click", () => {
+    addProjectForm.remove();
+  });
 
-  addProjectForm.appendChild(projectName);
+  addProjectForm.appendChild(projectTitle);
   addProjectForm.appendChild(projectDescription);
   addProjectForm.appendChild(confirmBtn);
   addProjectForm.appendChild(cancelBtn);
 
-  projectList.appendChild(addProjectForm);
+  return addProjectForm;
 }
 
 /**
@@ -70,11 +61,14 @@ export function addProjectPopup() {
  */
 export function addProjectBtn() {
   const addProjectBtn = document.createElement("button");
+  
   addProjectBtn.classList.add("main-addProjectBtn");
   addProjectBtn.textContent = "Add Project +";
 
   addProjectBtn.addEventListener("click", () => {
-    addProjectPopup();
+    if (document.getElementById("main-addProjectForm")) return;
+    const projectList = document.getElementById("main-projectList");
+    projectList.appendChild(addProjectPopup());
   });
 
   return addProjectBtn;

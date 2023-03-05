@@ -6,7 +6,7 @@
 
 "use strict";
 import projectListComponent from "../projectList/projectList";
-import { addProjectBtn as addProjectBtnComponent } from "../addProjectPopup/addProjectPopup";
+import { addProjectBtn as addProjectBtnComponent } from "./addProjectPopup";
 
 /**
  * Create a pending projects component and populate it with

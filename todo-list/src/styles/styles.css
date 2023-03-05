@@ -66,7 +66,7 @@ body {
 /* MAIN */
 .main {
   font-family: "Roboto", sans-serif;
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   color: rgba(var(--dark-black), 1);
   display: flex;
   flex-direction: column;
@@ -97,7 +97,7 @@ body {
 .main-navbar-item {
   font-family: "Roboto", sans-serif;
   color: rgba(var(--yinmn-blue, 1));
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   cursor: pointer;
   border: none;
   background-color: rgba(var(--yello-range), 1);
@@ -125,7 +125,7 @@ body {
   width: 100%;
   font-family: "Roboto", sans-serif;
   color: rgba(var(--yinmn-blue, 1));
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   cursor: pointer;
   border: none;
   background-color: rgba(var(--nostalgic-yellow), 0.5);
@@ -149,57 +149,142 @@ body {
   background-color: rgba(var(--nostalgic-yellow), 0.8);
 }
 
-.main-addProjectForm-projectName,
-.main-addProjectForm-projectDescription {
+.main-addProjectForm-title,
+.main-addProjectForm-description {
   grid-column: 1 / -1;
   border: none;
   padding: var(--spacing-sm);
   background-color: rgba(var(--soft-gray), 0.8);
   font-family: "Roboto", sans-serif;
   color: rgba(var(--dark-black), 1);
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   transition: all 0.3s ease-in-out;
 }
 
-.main-addProjectForm-projectName:focus,
-.main-addProjectForm-projectName:active,
-.main-addProjectForm-projectDescription:focus,
-.main-addProjectForm-projectDescription:active {
+.main-addProjectForm-title:focus,
+.main-addProjectForm-title:active,
+.main-addProjectForm-description:focus,
+.main-addProjectForm-description:active {
   background-color: rgba(var(--nostalgic-yellow), 0.8);
 }
 
-.main-addProjectForm-projectDescription {
+.main-addProjectForm-description {
   resize: none;  
 }
 
-.main-addProjectForm-confirmBtn,
-.main-addProjectForm-cancelBtn {
+.main-addProjectForm-confirm,
+.main-addProjectForm-cancel {
   height: var(--btn-height);
   border: none;
   font-family: "Roboto", sans-serif;
   color: rgba(var(--dark-black), 1);
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   cursor: pointer;
   transition: all 0.3s ease-in-out;
 }
 
-.main-addProjectForm-confirmBtn {
+.main-addProjectForm-confirm {
   background-color: rgba(var(--yello-range), 0.5);
 }
 
-.main-addProjectForm-confirmBtn:hover,
-.main-addProjectForm-confirmBtn:active,
-.main-addProjectForm-confirmBtn:focus {
+.main-addProjectForm-confirm:hover,
+.main-addProjectForm-confirm:active,
+.main-addProjectForm-confirm:focus {
   background-color: rgba(var(--nostalgic-yellow), 0.8);
 }
 
-.main-addProjectForm-cancelBtn {
+.main-addProjectForm-cancel {
   background-color: rgba(var(--soft-gray), 0.8);
 }
 
-.main-addProjectForm-cancelBtn:hover,
-.main-addProjectForm-cancelBtn:active,
-.main-addProjectForm-cancelBtn:focus {
+.main-addProjectForm-cancel:hover,
+.main-addProjectForm-cancel:active,
+.main-addProjectForm-cancel:focus {
+  background-color: rgba(var(--soft-gray), 1);
+}
+
+/* MAIN - ADD TASK */
+.main-addTaskBtn {
+  height: calc(var(--btn-height) / 2);
+  width: 100%;
+  font-family: "Roboto", sans-serif;
+  color: rgba(var(--yinmn-blue, 1));
+  font-size: 0.8rem;
+  cursor: pointer;
+  border: none;
+  background-color: rgba(var(--nostalgic-yellow), 0.5);
+  transition: all 0.3s ease-in-out;
+}
+
+.main-addTaskBtn:hover,
+.main-addTaskBtn:active,
+.main-addTaskBtn:focus {
+  background-color: rgba(var(--nostalgic-yellow), 0.8);
+}
+
+.main-addTaskForm {
+  width: 100%;
+  height: var(--popup-height);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto 1fr auto auto;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-sm);
+  background-color: rgba(var(--nostalgic-yellow), 0.8);
+}
+
+.main-addTaskForm-title,
+.main-addTaskForm-description,
+.main-addTaskForm-date {
+  grid-column: 1 / -1;
+  border: none;
+  padding: var(--spacing-sm);
+  background-color: rgba(var(--soft-gray), 0.8);
+  font-family: "Roboto", sans-serif;
+  color: rgba(var(--dark-black), 1);
+  font-size: 1rem;
+  transition: all 0.3s ease-in-out;
+}
+
+.main-addTaskForm-title:focus,
+.main-addTaskForm-title:active,
+.main-addTaskForm-description:focus,
+.main-addTaskForm-description:active {
+  background-color: rgba(var(--nostalgic-yellow), 0.8);
+}
+
+.main-addTaskForm-description {
+  resize: none;  
+}
+
+.main-addTaskForm-confirm,
+.main-addTaskForm-cancel {
+  height: var(--btn-height);
+  border: none;
+  font-family: "Roboto", sans-serif;
+  color: rgba(var(--dark-black), 1);
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+
+.main-addTaskForm-confirm {
+  background-color: rgba(var(--yello-range), 0.5);
+}
+
+.main-addTaskForm-confirm:hover,
+.main-addTaskForm-confirm:active,
+.main-addTaskForm-confirm:focus {
+  background-color: rgba(var(--nostalgic-yellow), 0.8);
+}
+
+.main-addTaskForm-cancel {
+  background-color: rgba(var(--soft-gray), 0.8);
+}
+
+.main-addTaskForm-cancel:hover,
+.main-addTaskForm-cancel:active,
+.main-addTaskForm-cancel:focus {
   background-color: rgba(var(--soft-gray), 1);
 }
 

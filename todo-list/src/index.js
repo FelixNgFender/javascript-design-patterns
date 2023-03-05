@@ -16,17 +16,47 @@ import "./styles/styles-reset.css";
 import faviconLink from "./assets/favicon.png";
 
 /* DATA STRUCTURES */
-const project = (title, description, priority, tasks, completed) => {
-  return { title, description, priority, tasks, completed };
+const project = (title, description, priority, tasks, id, completed) => {
+  return { title, description, priority, tasks, id, completed };
 };
 
-const task = (title, description, priority, dueDate, completed) => {
-  return { title, description, priority, dueDate, completed };
+const task = (title, description, priority, project, projectId, dueDate, completed) => {
+  return { title, description, priority, project, projectId, dueDate, completed };
 };
 
 const pendingProjects = [];
 
 const completedProjects = [];
+
+/**
+ * Add a new task to the project
+ * @param {project} projectObj Associated project object 
+ */
+export function addTask(projectObj) {
+  const form = document.getElementById("main-addTaskForm" + projectObj.id);
+  const newTask = getTaskFromInput(projectObj);
+  projectObj.tasks.push(newTask);
+  renderProjects();
+  console.log(pendingProjects);
+  form.reset();
+}
+
+/**
+ * Get task data from user-input form.
+ * @param {project} projectObj Associated project object
+ * @return {task} Task object
+ */
+function getTaskFromInput(projectObj) {
+  const form = document.getElementById("main-addTaskForm-" + projectObj.id);
+  const title = form.elements["title"].value;
+  const description = form.elements["description"].value;
+  const priority = projectObj.tasks.length;
+  const projectId = projectObj.id;
+  const id = Date.now();
+  const dueDate = form.elements["dueDate"].value;
+  const completed = false;
+  return task(title, description, priority, projectId, id, dueDate, completed);
+}
 
 /**
  * Get project data from user-input form.
@@ -38,8 +68,9 @@ function getProjectFromInput() {
   const description = form.elements["description"].value;
   const priority = pendingProjects.length;
   const tasks = [];
+  const id = Date.now();
   const completed = false;
-  return project(title, description, priority, tasks, completed);
+  return project(title, description, priority, tasks, id, completed);
 }
 
 /**

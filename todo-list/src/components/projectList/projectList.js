@@ -6,7 +6,8 @@
 
 "use strict";
 
-import {removeProject as removeProject} from "../../index";
+import { removeProject as removeProject } from "../../index";
+import { addTask as addTask } from "../../index";
 
 import deleteIcon from "./delete_FILL0_wght400_GRAD0_opsz48.svg";
 import expandIconMore from "./expand_more_FILL0_wght400_GRAD0_opsz48.svg";
@@ -69,16 +70,96 @@ function task(taskObj) {
 }
 
 /**
- * Create a task list component with numTasks tasks.
- * @param {Array} tasks Number of tasks
+ * Create a popup component to add a new task associated with
+ * the input project object.
+ * @param {project} projectObj Associated project object 
+ * @return {HTMLElement} Add task element
+ */
+function addTaskPopup(projectObj) {
+  const addTaskForm = document.createElement("form");
+  const taskTitle = document.createElement("input");
+  const taskDescription = document.createElement("textarea");
+  const taskDate = document.createElement("input");
+  const confirmBtn = document.createElement("button");
+  const cancelBtn = document.createElement("button");
+
+  addTaskForm.classList.add("main-addTaskForm");
+  addTaskForm.id = "main-addTaskForm-" + projectObj.id;
+  taskTitle.classList.add("main-addTaskForm-title");
+  taskDescription.classList.add("main-addTaskForm-description");
+  taskDate.classList.add("main-addTaskForm-date");
+  confirmBtn.classList.add("main-addTaskForm-confirm");
+  cancelBtn.classList.add("main-addTaskForm-cancel");
+
+  taskTitle.type = "text";
+  taskTitle.placeholder = "Task Name";
+  taskTitle.name = "title";
+  taskTitle.required = true;
+  taskDescription.placeholder = "Task Description";
+  taskDescription.name = "description";
+  taskDate.type = "date";
+  taskDate.name = "dueDate";
+  confirmBtn.type = "submit";
+  confirmBtn.textContent = "Confirm";
+  cancelBtn.type = "button";
+  cancelBtn.textContent = "Cancel";
+
+  addTaskForm.onsubmit = (e) => {
+    e.preventDefault();
+    addTask(projectObj);
+    addTaskForm.remove();
+  };
+  cancelBtn.onclick = () => {
+    addTaskForm.remove();
+  };
+
+  addTaskForm.appendChild(taskTitle);
+  addTaskForm.appendChild(taskDescription);
+  addTaskForm.appendChild(taskDate);
+  addTaskForm.appendChild(confirmBtn);
+  addTaskForm.appendChild(cancelBtn);
+
+  return addTaskForm;
+}
+
+/**
+ * Create an add task button component associated with a project.
+ * @param {Array} projectObj Associated project object
+ * @return {HTMLElement} Add task button
+ */
+function addTaskBtn(projectObj) {
+  const addTaskBtn = document.createElement("button");
+
+  addTaskBtn.classList.add("main-addTaskBtn");
+  addTaskBtn.textContent = "Add Task +";
+
+  addTaskBtn.addEventListener("click", () => {
+    if (document.getElementById("main-addTaskForm-" + projectObj.id)) return;
+    const taskList = document.getElementById(
+      "main-project-taskList-" + projectObj.id
+    );
+    taskList.appendChild(addTaskPopup(projectObj));
+  });
+
+  return addTaskBtn;
+}
+
+/**
+ * Create a task list component associated with a project.
+ * @param {project} projectObj Associated project object
  * @return {HTMLElement} Task list element
  */
-function taskList(tasks) {
+function taskList(projectObj) {
   const taskList = document.createElement("ul");
-  taskList.classList.add("main-project-taskList");
+  const addTaskBtnComponent = addTaskBtn(projectObj);
+  const taskArr = projectObj.tasks;
 
-  for (let i = 0; i < tasks.length; i++) {
-    const taskComponent = task(tasks[i]);
+  taskList.classList.add("main-project-taskList");
+  taskList.id = "main-project-taskList-" + projectObj.id;
+
+  taskList.appendChild(addTaskBtnComponent);
+  for (let i = 0; i < taskArr.length; i++) {
+    const taskComponent = task(taskArr[i]);
     taskList.appendChild(taskComponent);
   }
 
@@ -123,10 +204,9 @@ function project(projectObj) {
   const projectDeleteIcon = document.createElement("img");
 
   const sortTaskComponent = sortComponent();
-  const projectTaskList = taskList(projectObj.tasks);
+  const projectTaskList = taskList(projectObj);
 
   project.classList.add("main-project");
-  
   projectCheckbox.type = "checkbox";
   projectCheckbox.classList.add("main-project-checkbox");
   projectTitle.classList.add("main-project-title");
@@ -154,7 +234,6 @@ function project(projectObj) {
   project.appendChild(projectCheckbox);
   project.appendChild(projectTitle);
   projectTitle.appendChild(projectDescription);
-  console.log(projectTitle);
   project.appendChild(projectExpandBtn);
   project.appendChild(projectDeleteBtn);
   projectExpandBtn.appendChild(projectExpandIcon);
