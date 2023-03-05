@@ -6,8 +6,6 @@
 
 "use strict";
 
-import createProjectList from "./projectList/projectList";
-
 /**
  * Create the header component.
  * @return {HTMLElement} Header element
@@ -32,8 +30,7 @@ function header() {
 function main() {
   const main = document.createElement("main");
   const mainNavbar = document.createElement("nav");
-  const mainNavbarItems = ["Active", "Archive"];
-  const projectList = createProjectList();
+  const mainNavbarItems = ["Pending", "Archive"];
   main.classList.add("main");
   main.id = "main";
   mainNavbar.classList.add("main-navbar");
@@ -44,7 +41,6 @@ function main() {
     mainNavbar.appendChild(mainNavbarItem);
   });
   main.appendChild(mainNavbar);
-  main.appendChild(projectList);
   return main;
 }
 
