@@ -10,6 +10,7 @@ import { addTask as addTask } from "../../index";
 
 import deleteIcon from "./delete_FILL0_wght400_GRAD0_opsz48.svg";
 import expandIconMore from "./expand_more_FILL0_wght400_GRAD0_opsz48.svg";
+import expandIconLess from "./expand_less_FILL0_wght400_GRAD0_opsz48.svg";
 
 /**
  * Create a task component.
@@ -21,19 +22,19 @@ function task(index, taskArr) {
   const taskObj = taskArr[index];
   const task = document.createElement("li");
   const taskCheckbox = document.createElement("input");
-  const taskHeaderWrapper = document.createElement("div");
-  const taskTitle = document.createElement("div");
-  const taskDescription = document.createElement("div");
+  const taskTitle = document.createElement("h4");
+  const taskDescription = document.createElement("p");
   const taskDate = document.createElement("span");
   const taskExpandBtn = document.createElement("button");
+  const taskExpandBtnText = document.createElement("span");
   const taskDeleteBtn = document.createElement("button");
+  const taskDeleteBtnText = document.createElement("span");
   const taskExpandIcon = document.createElement("img");
   const taskDeleteIcon = document.createElement("img");
 
   task.classList.add("main-task");
   taskCheckbox.type = "checkbox";
   taskCheckbox.classList.add("main-task-checkbox");
-  taskHeaderWrapper.classList.add("main-task-headerWrapper");
   taskTitle.classList.add("main-task-title");
   taskDescription.classList.add("main-task-description");
   taskDate.classList.add("main-task-date");
@@ -42,11 +43,25 @@ function task(index, taskArr) {
   taskExpandIcon.classList.add("main-icons");
   taskDeleteIcon.classList.add("main-icons");
 
-  taskTitle.attributes["contenteditable"] = "true";
-  taskDescription.attributes["contenteditable"] = "true";
-  taskDate.attributes["contenteditable"] = "true";
-  taskExpandBtn.textContent = "EXPAND";
-  taskDeleteBtn.textContent = "DELETE";
+  taskTitle.contentEditable = true;
+  taskTitle.spellcheck = false;
+  taskDescription.contentEditable = true;
+  taskDescription.spellcheck = false;
+  taskDate.contentEditable = true;
+  taskExpandBtnText.textContent = "EXPAND";
+  taskExpandBtn.addEventListener("click", () => {
+    if (taskExpandBtnText.textContent === "EXPAND") {
+      taskExpandBtnText.textContent = "COLLAPSE";
+      taskExpandIcon.src = expandIconLess;
+      taskDescription.classList.add("active");
+    } else {
+      taskExpandBtnText.textContent = "EXPAND";
+      taskExpandIcon.src = expandIconMore;
+      taskDescription.classList.remove("active");
+    }
+  });
+
+  taskDeleteBtnText.textContent = "DELETE";
   taskDeleteBtn.addEventListener("click", () => {
     taskArr.splice(index, 1);
     taskArr.forEach((task, i) => {
@@ -64,13 +79,14 @@ function task(index, taskArr) {
   taskDate.textContent = taskObj.dueDate;
 
   task.appendChild(taskCheckbox);
-  task.appendChild(taskHeaderWrapper);
-  taskHeaderWrapper.appendChild(taskTitle);
+  task.appendChild(taskTitle);
   taskTitle.appendChild(taskDescription);
-  taskHeaderWrapper.appendChild(taskDate);
-  taskHeaderWrapper.appendChild(taskExpandBtn);
+  task.appendChild(taskDate);
+  task.appendChild(taskExpandBtn);
+  taskExpandBtn.appendChild(taskExpandBtnText);
   taskExpandBtn.appendChild(taskExpandIcon);
   task.appendChild(taskDeleteBtn);
+  taskDeleteBtn.appendChild(taskDeleteBtnText);
   taskDeleteBtn.appendChild(taskDeleteIcon);
 
   return task;
@@ -205,10 +221,12 @@ function project(index, projectArr) {
   const projectObj = projectArr[index];
   const project = document.createElement("li");
   const projectCheckbox = document.createElement("input");
-  const projectTitle = document.createElement("div");
-  const projectDescription = document.createElement("div");
+  const projectTitle = document.createElement("h3");
+  const projectDescription = document.createElement("p");
   const projectExpandBtn = document.createElement("button");
+  const projectExpandBtnText = document.createElement("span");
   const projectDeleteBtn = document.createElement("button");
+  const projectDeleteBtnText = document.createElement("span");
   const projectExpandIcon = document.createElement("img");
   const projectDeleteIcon = document.createElement("img");
 
@@ -229,11 +247,24 @@ function project(index, projectArr) {
   project.id = "main-project-" + projectObj.id;
   projectCheckbox.checked = projectObj.completed;
   projectTitle.textContent = projectObj.title;
-  projectTitle.attributes["contenteditable"] = true;
+  projectTitle.contentEditable = true;
+  projectTitle.spellcheck = false;
   projectDescription.textContent = projectObj.description;
-  projectDescription.attributes["contenteditable"] = true;
-  projectExpandBtn.textContent = "EXPAND";
-  projectDeleteBtn.textContent = "DELETE";
+  projectDescription.contentEditable = true;
+  projectDescription.spellcheck = false;
+  projectExpandBtnText.textContent = "EXPAND";
+  projectExpandBtn.addEventListener("click", () => {
+    if (projectExpandBtnText.textContent === "EXPAND") {
+      projectExpandBtnText.textContent = "COLLAPSE";
+      projectExpandIcon.src = expandIconLess;
+      projectDescription.classList.add("active");
+    } else {
+      projectExpandBtnText.textContent = "EXPAND";
+      projectExpandIcon.src = expandIconMore;
+      projectDescription.classList.remove("active");
+    }
+  });    
+  projectDeleteBtnText.textContent = "DELETE";
   projectDeleteBtn.addEventListener("click", () => {
     projectArr.splice(index, 1);
     projectArr.forEach((project, i) => {
@@ -250,7 +281,9 @@ function project(index, projectArr) {
   projectTitle.appendChild(projectDescription);
   project.appendChild(projectExpandBtn);
   project.appendChild(projectDeleteBtn);
+  projectExpandBtn.appendChild(projectExpandBtnText);
   projectExpandBtn.appendChild(projectExpandIcon);
+  projectDeleteBtn.appendChild(projectDeleteBtnText);
   projectDeleteBtn.appendChild(projectDeleteIcon);
   project.appendChild(sortTaskComponent);
   project.appendChild(addTaskBtnComponent);

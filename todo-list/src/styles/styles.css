@@ -19,6 +19,7 @@
   --btn-height: 50px;
   --popup-height: 300px;
   --checkbox-size: 20px;
+  --fn-btn-width: 110px;
   --shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
 }
 
@@ -286,10 +287,21 @@ body {
   background-color: rgba(var(--soft-gray), 0.8);
   display: grid;
   grid-template-columns: auto 1fr auto auto;
-  align-items: center;
+  align-items: start;
   gap: var(--spacing-sm);
   padding: var(--spacing-sm);
   cursor: grab;
+}
+
+.main-project-title,
+.main-task-title,
+.main-task-date {
+  margin-top: 0.15em;
+  overflow-wrap: break-word;
+  font-family: "Roboto", sans-serif;
+  color: rgba(var(--dark-black), 1);
+  font-size: 1rem;
+  transition: all 0.3s ease-in-out;
 }
 
 .main-project-sortTaskWrapper {
@@ -329,23 +341,41 @@ body {
 
 .main-task {
   display: grid;
-  grid-template-columns: auto 1fr auto;
-  align-items: center;
+  grid-template-columns: auto 1fr auto auto auto;
+  align-items: start;
   gap: var(--spacing-sm);
 }
 
-.main-task-headerWrapper {
-  display: grid;
-  grid-template-columns: 1fr auto auto;
-  align-items: center;
-  gap: var(--spacing-sm);
+.main-project-description,
+.main-task-description {
+  display: none;
+  font-size: 0.9rem;
 }
 
-.main-project-title,
-.main-task-title,
-.main-task-date {
-  display: flex;
-  align-items: center;
+.main-project-description.active,
+.main-task-description.active {
+  display: block;
+}
+
+.main-project button {
+  font-family: "Roboto", sans-serif;
+  cursor: pointer;
+  border: none;
+  background-color: rgba(var(--nostalgic-yellow), 0.5);
+  transition: all 0.3s ease-in-out;
+}
+
+.main-project button:hover,
+.main-project button:active,
+.main-project button:focus {
+  background-color: rgba(var(--nostalgic-yellow), 0.8);
+}
+
+.main-project-expandBtn,
+.main-project-deleteBtn,
+.main-task-expandBtn,
+.main-task-deleteBtn {
+  width: var(--fn-btn-width)  
 }
 
 .main-project-checkbox,
@@ -353,6 +383,10 @@ body {
   margin: 0;
   width: var(--checkbox-size);
   height: var(--checkbox-size);
+  border: 1px solid rgba(var(--dark-black), 1);
+  border-radius: var(--border-radius);
+  accent-color: rgba(var(--passionate-red), 1);
+  transition: all 0.3s ease-in-out;
   cursor: pointer;
 }
 
@@ -381,9 +415,22 @@ body {
 }
 
 /* MEDIA QUERIES */
-/* make icons hide text on small screens */
-@media screen and (max-width: 350px) {
-  .main-icons {
+@media screen and (max-width: 500px) {
+  .main-project-expandBtn span,
+  .main-project-deleteBtn span,
+  .main-task-expandBtn span,
+  .main-task-deleteBtn span {
     display: none;
+  }
+
+  .main-icons {
+    margin: 0;
+  }
+
+  .main-project-expandBtn,
+  .main-project-deleteBtn,
+  .main-task-expandBtn,
+  .main-task-deleteBtn {
+    width: auto;
   }
 }
