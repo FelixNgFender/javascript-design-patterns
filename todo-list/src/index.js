@@ -48,6 +48,51 @@ const pendingProjects = [];
 const completedProjects = [];
 
 /**
+ * Sort the tasks in the input array by due date. Tasks with no due date
+ * are sorted by their priorities after the tasks with due dates. Tasks with earlier
+ * due dates are sorted to the top of the list.
+ * @param {Array} tasks Array of task objects
+ * @return {void}
+ */
+export function sortTaskByDate(tasks) {
+  tasks.sort((a, b) => {
+    if (a.dueDate === "" && b.dueDate === "") {
+      return a.priority - b.priority;
+    } else if (a.dueDate === "") {
+      return 1;
+    } else if (b.dueDate === "") {
+      return -1;
+    } else {
+      const aDate = new Date(a.dueDate);
+      const bDate = new Date(b.dueDate);
+      return aDate - bDate;
+    }
+  });
+}
+
+/**
+ * Sort the objects in the input array by their priorities.
+ * @param {Array} arr Array of project or task objects
+ * @return {void}
+ */
+export function sortArrByPriority(arr) {
+  arr.sort((a, b) => {
+    return a.priority - b.priority;
+  });
+}
+
+/**
+ * Reset the priority of the projects/tasks in the input array.
+ * @param {Array} arr Array of project or task objects
+ * @return {void}
+ */
+export function resetPriority(arr) {
+  arr.forEach((element, i) => {
+    element.priority = i;
+  });
+}
+
+/**
  * Get task data from user-input form.
  * @param {project} projectObj Associated project object
  * @return {task} Task object
@@ -72,7 +117,26 @@ function getTaskFromInput(projectObj) {
 export function addTask(projectObj) {
   const newTask = getTaskFromInput(projectObj);
   projectObj.tasks.push(newTask);
+  if (getSortMode(projectObj) === "date") {
+    sortTaskByDate(projectObj.tasks);
+  }
   refreshTaskList(projectObj);
+}
+
+/**
+ * Get the sort mode of the project object.
+ * @param {project} projectObj Project object
+ * @return {String} Sort mode ("priority"/"date")
+ */
+function getSortMode(projectObj) {
+  const sortBtns = document.getElementsByName("sortTask-" + projectObj.id);
+  let sortMode = "";
+  sortBtns.forEach((btn) => {
+    if (btn.checked) {
+      sortMode = btn.value;
+    }
+  });
+  return sortMode;
 }
 
 /**
@@ -83,9 +147,13 @@ export function addTask(projectObj) {
 export function deleteTask(projectObj, taskIndex) {
   const taskArr = projectObj.tasks;
   taskArr.splice(taskIndex, 1);
-  taskArr.forEach((task, i) => {
-    task.priority = i;
-  });
+  if (getSortMode(projectObj) === "priority") {
+    resetPriority(taskArr);
+  } else {
+    sortArrByPriority(taskArr);
+    resetPriority(taskArr);
+    sortTaskByDate(taskArr);
+  }
   refreshTaskList(projectObj);
 }
 
@@ -120,9 +188,7 @@ export function addProject() {
  */
 export function deleteProject(projectIndex) {
   pendingProjects.splice(projectIndex, 1);
-  pendingProjects.forEach((project, i) => {
-    project.priority = i;
-  });
+  resetPriority(pendingProjects);
   refreshProjectList(pendingProjects);
 }
 

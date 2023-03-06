@@ -313,6 +313,29 @@ body {
   height: var(--btn-height);
 }
 
+.main-project-sortBtn {
+  display: none;
+  appearance: none;
+}
+
+.main-project-sortLabel {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  border: none;
+  background-color: rgba(var(--nostalgic-yellow), 0.5);
+  transition: 0.3s ease-in-out;
+}
+
+.main-project-sortBtn:checked + .main-project-sortLabel {
+  background-color: rgba(var(--nostalgic-yellow), 0.8);
+  transition: 0.3s;
+}
+
+
 .main-addTaskBtn {
   grid-column: 2 / -1;
   height: calc(var(--btn-height) / 2);

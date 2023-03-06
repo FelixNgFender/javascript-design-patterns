@@ -11,7 +11,8 @@ import { addTask as addTask } from "../../index";
 import deleteIcon from "./delete_FILL0_wght400_GRAD0_opsz48.svg";
 import expandIconMore from "./expand_more_FILL0_wght400_GRAD0_opsz48.svg";
 import expandIconLess from "./expand_less_FILL0_wght400_GRAD0_opsz48.svg";
-import { deleteTask, deleteProject } from "../../index";
+import { deleteTask, deleteProject, sortTaskByDate, sortArrByPriority } from "../../index";
+import { refreshTaskList } from "../pending/pending";
 
 /**
  * Create a task component from the associated project and the task index.
@@ -45,6 +46,7 @@ function task(projectObj, taskIndex) {
   taskExpandIcon.classList.add("main-icons");
   taskDeleteIcon.classList.add("main-icons");
 
+  task.style.backgroundImage = "linear-gradient(to right, " + getObjColor(taskIndex, taskArr) + ", transparent 10%)";
   task.dataset.priority = taskObj.priority;
   task.dataset.date = taskObj.date;
   taskTitle.contentEditable = true;
@@ -189,25 +191,73 @@ export function taskList(projectObj) {
 }
 
 /**
- * Create a sort task component.
+ * Create a sort task component associated with a project.
+ * @param {project} projectObj Associated project object
  * @return {HTMLElement} Sort task component
  */
-function sortComponent() {
+function sortComponent(projectObj) {
   const sortTaskWrapper = document.createElement("div");
-  const sortTaskByPriorityBtn = document.createElement("button");
-  const sortTaskByDateBtn = document.createElement("button");
+  const sortTaskByPriorityLabel = document.createElement("label");
+  const sortTaskByPriorityBtn = document.createElement("input");
+  const sortTaskByDateLabel = document.createElement("label");
+  const sortTaskByDateBtn = document.createElement("input");
 
   sortTaskWrapper.classList.add("main-project-sortTaskWrapper");
+  sortTaskByPriorityLabel.classList.add("main-project-sortLabel");
   sortTaskByPriorityBtn.classList.add("main-project-sortBtn");
+  sortTaskByDateLabel.classList.add("main-project-sortLabel");
   sortTaskByDateBtn.classList.add("main-project-sortBtn");
 
-  sortTaskByPriorityBtn.textContent = "Sort by priority";
-  sortTaskByDateBtn.textContent = "Sort by date";
+  sortTaskByPriorityLabel.textContent = "Sort by priority";
+  sortTaskByPriorityLabel.htmlFor = "sortPriority-" + projectObj.id;
+  sortTaskByDateLabel.textContent = "Sort by date";
+  sortTaskByDateLabel.htmlFor = "sortDate-" + projectObj.id;
+
+  sortTaskByPriorityBtn.type = "radio";
+  sortTaskByPriorityBtn.name = "sortTask-" + projectObj.id;
+  sortTaskByPriorityBtn.id = "sortPriority-" + projectObj.id;
+  sortTaskByPriorityBtn.value = "priority";
+  // Default is sort by priority, checked is a boolean attribute
+  sortTaskByPriorityBtn.checked = true;
+
+
+  sortTaskByDateBtn.type = "radio";
+  sortTaskByDateBtn.name = "sortTask-" + projectObj.id;
+  sortTaskByDateBtn.id = "sortDate-" + projectObj.id;
+  sortTaskByDateBtn.value = "date";
+
+  sortTaskByPriorityBtn.addEventListener("click", () => {
+    sortArrByPriority(projectObj.tasks);
+    refreshTaskList(projectObj);
+  });
+
+  sortTaskByDateBtn.addEventListener("click", () => {
+    sortTaskByDate(projectObj.tasks);
+    refreshTaskList(projectObj);
+  });
 
   sortTaskWrapper.appendChild(sortTaskByPriorityBtn);
+  sortTaskWrapper.appendChild(sortTaskByPriorityLabel);
   sortTaskWrapper.appendChild(sortTaskByDateBtn);
+  sortTaskWrapper.appendChild(sortTaskByDateLabel);
 
   return sortTaskWrapper;
+}
+
+
+/**
+ * Get the color of a project or task object based on its priority.
+ * @param {Number} index Index of object in array
+ * @param {Array} objArr Project or task array
+ * @return {String} Color string
+ */
+function getObjColor(index, objArr) {
+  const obj = objArr[index];
+  const objPriority = obj.priority;
+  const normalizedPriority = objPriority / (objArr.length - 1);
+  const red = Math.round(255 * (1 - normalizedPriority));
+  const green = Math.round(255 * normalizedPriority);
+  return "rgb(" + red + "," + green + ",0)";
 }
 
 /**
@@ -229,7 +279,7 @@ function project(index, projectArr) {
   const projectExpandIcon = document.createElement("img");
   const projectDeleteIcon = document.createElement("img");
 
-  const sortTaskComponent = sortComponent();
+  const sortTaskComponent = sortComponent(projectObj);
   const addTaskBtnComponent = addTaskBtn(projectObj);
   const projectTaskList = taskList(projectObj);
 
@@ -243,6 +293,7 @@ function project(index, projectArr) {
   projectExpandIcon.classList.add("main-icons");
   projectDeleteIcon.classList.add("main-icons");
 
+  project.style.backgroundImage = "linear-gradient(to right, " + getObjColor(index, projectArr) + ", transparent 15%)";
   project.id = "main-project-" + projectObj.id;
   project.dataset.priority = projectObj.priority;
   projectCheckbox.checked = projectObj.completed;
