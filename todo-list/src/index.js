@@ -7,7 +7,10 @@
 "use strict";
 
 import pageLoad from "./components/pageLoad";
-import renderPendingComponent, { refreshProjectList, refreshTaskList } from "./components/pending/pending";
+import renderPendingComponent, {
+  refreshProjectList,
+  refreshTaskList,
+} from "./components/pending/pending";
 import renderArchiveComponent from "./components/archive/archive";
 
 import "./styles/styles.css";
@@ -20,8 +23,24 @@ const project = (title, description, priority, tasks, id, completed) => {
   return { title, description, priority, tasks, id, completed };
 };
 
-const task = (title, description, priority, project, projectId, dueDate, completed) => {
-  return { title, description, priority, project, projectId, dueDate, completed };
+const task = (
+  title,
+  description,
+  priority,
+  project,
+  projectId,
+  dueDate,
+  completed
+) => {
+  return {
+    title,
+    description,
+    priority,
+    project,
+    projectId,
+    dueDate,
+    completed,
+  };
 };
 
 const pendingProjects = [];
@@ -46,13 +65,27 @@ function getTaskFromInput(projectObj) {
 }
 
 /**
- * Add a new task to the project
- * @param {project} projectObj Associated project object 
+ * Add a new task to the project object and refresh the task list in the project component.
+ * @param {project} projectObj Associated project object
  * @return {void}
  */
 export function addTask(projectObj) {
   const newTask = getTaskFromInput(projectObj);
   projectObj.tasks.push(newTask);
+  refreshTaskList(projectObj);
+}
+
+/**
+ * Delete the underlying task object at taskIndex from the project object and refresh the task list in the project component.
+ * @param {project} projectObj Project object
+ * @param {Number} taskIndex Index of the task to be deleted
+ */
+export function deleteTask(projectObj, taskIndex) {
+  const taskArr = projectObj.tasks;
+  taskArr.splice(taskIndex, 1);
+  taskArr.forEach((task, i) => {
+    task.priority = i;
+  });
   refreshTaskList(projectObj);
 }
 
@@ -78,6 +111,18 @@ function getProjectFromInput() {
 export function addProject() {
   const newProject = getProjectFromInput();
   pendingProjects.push(newProject);
+  refreshProjectList(pendingProjects);
+}
+
+/**
+ * Delete the underlying project object at projectIndex from the pending project list and refresh the project list.
+ * @param {Number} projectIndex Index of the project to be deleted
+ */
+export function deleteProject(projectIndex) {
+  pendingProjects.splice(projectIndex, 1);
+  pendingProjects.forEach((project, i) => {
+    project.priority = i;
+  });
   refreshProjectList(pendingProjects);
 }
 

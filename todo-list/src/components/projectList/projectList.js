@@ -11,15 +11,17 @@ import { addTask as addTask } from "../../index";
 import deleteIcon from "./delete_FILL0_wght400_GRAD0_opsz48.svg";
 import expandIconMore from "./expand_more_FILL0_wght400_GRAD0_opsz48.svg";
 import expandIconLess from "./expand_less_FILL0_wght400_GRAD0_opsz48.svg";
+import { deleteTask, deleteProject } from "../../index";
 
 /**
- * Create a task component.
- * @param {Number} index Index of task in task array
- * @param {Array} taskArr Array of tasks
+ * Create a task component from the associated project and the task index.
+ * @param {project} projectObj Project object
+ * @param {Number} taskIndex Index of the task in the project
  * @return {HTMLElement} Task component
  */
-function task(index, taskArr) {
-  const taskObj = taskArr[index];
+function task(projectObj, taskIndex) {
+  const taskArr = projectObj.tasks;
+  const taskObj = taskArr[taskIndex];
   const task = document.createElement("li");
   const taskCheckbox = document.createElement("input");
   const taskTitle = document.createElement("h4");
@@ -43,6 +45,8 @@ function task(index, taskArr) {
   taskExpandIcon.classList.add("main-icons");
   taskDeleteIcon.classList.add("main-icons");
 
+  task.dataset.priority = taskObj.priority;
+  task.dataset.date = taskObj.date;
   taskTitle.contentEditable = true;
   taskTitle.spellcheck = false;
   taskDescription.contentEditable = true;
@@ -63,11 +67,7 @@ function task(index, taskArr) {
 
   taskDeleteBtnText.textContent = "DELETE";
   taskDeleteBtn.addEventListener("click", () => {
-    taskArr.splice(index, 1);
-    taskArr.forEach((task, i) => {
-      task.priority = i;
-    });
-    task.remove();
+    deleteTask(projectObj, taskIndex);
   });
 
   taskExpandIcon.src = expandIconMore;
@@ -161,7 +161,6 @@ function addTaskBtn(projectObj) {
     const taskList = document.getElementById(
       "main-project-taskList-" + projectObj.id
     );
-    console.log(taskList);
     taskList.appendChild(addTaskPopup(projectObj));
   });
 
@@ -182,7 +181,7 @@ export function taskList(projectObj) {
   taskList.id = "main-project-taskList-" + projectObj.id;
 
   for (let i = 0; i < taskArr.length; i++) {
-    const taskComponent = task(i, taskArr);
+    const taskComponent = task(projectObj, i);
     taskList.appendChild(taskComponent);
   }
 
@@ -245,6 +244,7 @@ function project(index, projectArr) {
   projectDeleteIcon.classList.add("main-icons");
 
   project.id = "main-project-" + projectObj.id;
+  project.dataset.priority = projectObj.priority;
   projectCheckbox.checked = projectObj.completed;
   projectTitle.textContent = projectObj.title;
   projectTitle.contentEditable = true;
@@ -263,14 +263,10 @@ function project(index, projectArr) {
       projectExpandIcon.src = expandIconMore;
       projectDescription.classList.remove("active");
     }
-  });    
+  });
   projectDeleteBtnText.textContent = "DELETE";
   projectDeleteBtn.addEventListener("click", () => {
-    projectArr.splice(index, 1);
-    projectArr.forEach((project, i) => {
-      project.priority = i;
-    });
-    project.remove();
+    deleteProject(index, projectArr);
   });
 
   projectExpandIcon.src = expandIconMore;
