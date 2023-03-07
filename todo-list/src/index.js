@@ -47,6 +47,23 @@ const pendingProjects = [];
 
 const completedProjects = [];
 
+
+/**
+ * Swap the position of two projects in the input array. Update the priority
+ * of the projects in the array. Refresh the project list in the active tab component.
+ * Because of the project's implementation, priority is the index of the project.
+ * @param {Array} projectArr Array of projects.
+ * @param {Number} priority1 Index of the first project
+ * @param {Number} priority2 Index of the second project
+ */
+export function swapProject(projectArr, priority1, priority2) {
+  const temp = projectArr[priority1];
+  projectArr[priority1] = projectArr[priority2];
+  projectArr[priority2] = temp;
+  resetPriority(projectArr);
+  refreshProjectList(projectArr);
+}
+
 /**
  * Remove the project from the pending projects array and add it to the
  * completed projects array. Update the priority of the projects in the

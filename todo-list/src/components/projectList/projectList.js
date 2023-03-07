@@ -16,6 +16,7 @@ import {
   deleteProject,
   sortTaskByDate,
   sortArrByPriority,
+  swapProject,
 } from "../../index";
 import { refreshTaskList } from "../pending/pending";
 
@@ -309,6 +310,22 @@ function project(index, projectArr) {
       getObjColor(index, projectArr) +
       ", transparent 15%)";
   }
+  project.draggable = true;
+  project.addEventListener("dragstart", (e) => {
+    e.dataTransfer.setData("text/plain", projectObj.priority);
+    // Lower opacity when dragging
+    project.style.opacity = 0.5;
+  });
+  project.addEventListener("dragover", (e) => {
+    e.preventDefault();
+  });
+  project.addEventListener("drop", (e) => {
+    const draggedProjectPriority = e.dataTransfer.getData("text/plain");
+    swapProject(projectArr, draggedProjectPriority, projectObj.priority);
+  });
+  project.addEventListener("dragend", (e) => {
+    project.style.opacity = 1;
+  });
   project.id = "main-project-" + projectObj.id;
   project.dataset.priority = projectObj.priority;
   projectCheckbox.checked = projectObj.completed;
