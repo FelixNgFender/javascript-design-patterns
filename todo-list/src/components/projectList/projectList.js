@@ -6,12 +6,17 @@
 
 "use strict";
 
-import { addTask as addTask } from "../../index";
+import { addTask as addTask, completeProject, completeTask } from "../../index";
 
 import deleteIcon from "./delete_FILL0_wght400_GRAD0_opsz48.svg";
 import expandIconMore from "./expand_more_FILL0_wght400_GRAD0_opsz48.svg";
 import expandIconLess from "./expand_less_FILL0_wght400_GRAD0_opsz48.svg";
-import { deleteTask, deleteProject, sortTaskByDate, sortArrByPriority } from "../../index";
+import {
+  deleteTask,
+  deleteProject,
+  sortTaskByDate,
+  sortArrByPriority,
+} from "../../index";
 import { refreshTaskList } from "../pending/pending";
 
 /**
@@ -46,9 +51,13 @@ function task(projectObj, taskIndex) {
   taskExpandIcon.classList.add("main-icons");
   taskDeleteIcon.classList.add("main-icons");
 
-  task.style.backgroundImage = "linear-gradient(to right, " + getObjColor(taskIndex, taskArr) + ", transparent 10%)";
+  if (!taskObj.completed) {
+    task.style.backgroundImage =
+      "linear-gradient(to right, " +
+      getObjColor(taskIndex, taskArr) +
+      ", transparent 10%)";
+  }
   task.dataset.priority = taskObj.priority;
-  task.dataset.date = taskObj.date;
   taskTitle.contentEditable = true;
   taskTitle.spellcheck = false;
   taskDescription.contentEditable = true;
@@ -75,7 +84,12 @@ function task(projectObj, taskIndex) {
   taskExpandIcon.src = expandIconMore;
   taskDeleteIcon.src = deleteIcon;
 
-  taskCheckbox.checked = taskObj.completed;
+  taskCheckbox.checked = taskObj.completed || projectObj.completed;
+  if (projectObj.completed) taskCheckbox.disabled = true;
+  taskCheckbox.addEventListener("click", () => {
+    completeTask(projectObj, taskIndex);
+  });
+
   taskTitle.textContent = taskObj.title;
   taskDescription.textContent = taskObj.description;
   taskDate.textContent = taskObj.dueDate;
@@ -157,6 +171,7 @@ function addTaskBtn(projectObj) {
 
   addTaskBtn.classList.add("main-addTaskBtn");
   addTaskBtn.textContent = "Add Task +";
+  if (projectObj.completed) addTaskBtn.disabled = true;
 
   addTaskBtn.addEventListener("click", () => {
     if (document.getElementById("main-addTaskForm-" + projectObj.id)) return;
@@ -220,7 +235,6 @@ function sortComponent(projectObj) {
   // Default is sort by priority, checked is a boolean attribute
   sortTaskByPriorityBtn.checked = true;
 
-
   sortTaskByDateBtn.type = "radio";
   sortTaskByDateBtn.name = "sortTask-" + projectObj.id;
   sortTaskByDateBtn.id = "sortDate-" + projectObj.id;
@@ -243,7 +257,6 @@ function sortComponent(projectObj) {
 
   return sortTaskWrapper;
 }
-
 
 /**
  * Get the color of a project or task object based on its priority.
@@ -293,10 +306,19 @@ function project(index, projectArr) {
   projectExpandIcon.classList.add("main-icons");
   projectDeleteIcon.classList.add("main-icons");
 
-  project.style.backgroundImage = "linear-gradient(to right, " + getObjColor(index, projectArr) + ", transparent 15%)";
+  if (!projectObj.completed) {
+    project.style.backgroundImage =
+      "linear-gradient(to right, " +
+      getObjColor(index, projectArr) +
+      ", transparent 15%)";
+  }
   project.id = "main-project-" + projectObj.id;
   project.dataset.priority = projectObj.priority;
   projectCheckbox.checked = projectObj.completed;
+  if (projectObj.completed) projectCheckbox.disabled = true;
+  projectCheckbox.addEventListener("click", () => {
+    completeProject(projectObj);
+  });
   projectTitle.textContent = projectObj.title;
   projectTitle.contentEditable = true;
   projectTitle.spellcheck = false;
