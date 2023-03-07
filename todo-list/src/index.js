@@ -19,10 +19,32 @@ import "./styles/styles-reset.css";
 import faviconLink from "./assets/favicon.png";
 
 /* DATA STRUCTURES */
+
+/**
+ * Create a project object.
+ * @param {String} title Title of the project
+ * @param {String} description Description of the project
+ * @param {Number} priority Priority of the project
+ * @param {Array} tasks Array of tasks
+ * @param {Number} id Id of the project
+ * @param {Boolean} completed Status of the project
+ * @return {Object} Project object
+ */
 const project = (title, description, priority, tasks, id, completed) => {
   return { title, description, priority, tasks, id, completed };
 };
 
+/**
+ * Create a task object.
+ * @param {String} title Title of the task
+ * @param {String} description Description of the task
+ * @param {Number} priority Priority of the task
+ * @param {String} project Project of the task
+ * @param {Number} projectId Id of the project
+ * @param {Date} dueDate Due date of the task
+ * @param {Boolean} completed Status of the task
+ * @return {Object} Task object
+ */
 const task = (
   title,
   description,
