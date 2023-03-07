@@ -35,10 +35,19 @@ function main() {
   main.id = "main";
   mainNavbar.classList.add("main-navbar");
   mainNavbarItems.forEach((item) => {
-    const mainNavbarItem = document.createElement("button");
+    const mainNavbarLabel = document.createElement("label");
+    const mainNavbarItem = document.createElement("input");
+    mainNavbarLabel.classList.add("main-navbar-itemLabel");
     mainNavbarItem.classList.add("main-navbar-item");
-    mainNavbarItem.textContent = item;
+    mainNavbarLabel.textContent = item;
+    mainNavbarLabel.htmlFor = "main-navbar-" + item.toLowerCase();
+    mainNavbarItem.type = "radio";
+    mainNavbarItem.name = "main-navbar";
+    mainNavbarItem.value = item.toLowerCase();
+    mainNavbarItem.id = "main-navbar-" + item.toLowerCase();
+    mainNavbarItem.checked = item === "Pending";
     mainNavbar.appendChild(mainNavbarItem);
+    mainNavbar.appendChild(mainNavbarLabel);
   });
   main.appendChild(mainNavbar);
   return main;

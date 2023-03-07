@@ -47,6 +47,46 @@ const pendingProjects = [];
 
 const completedProjects = [];
 
+completedProjects.push(
+  project(
+    "Project 1",
+    "This is a completed project",
+    0,
+    [
+      task(
+        "Task 1",
+        "This is a completed task",
+        0,
+        "Project 1",
+        0,
+        "2020-12-31",
+        true
+      ),
+      task(
+        "Task 2",
+        "This is a completed task",
+        1,
+        "Project 1",
+        0,
+        "2020-12-31",
+        true
+      ),
+      task(
+        "Task 3",
+        "This is a completed task",
+        2,
+        "Project 1",
+        0,
+        "2020-12-31",
+        true
+      ),
+    ],
+    0,
+    true
+  )
+);
+console.log(completedProjects);
+
 /**
  * Sort the tasks in the input array by due date. Tasks with no due date
  * are sorted by their priorities after the tasks with due dates. Tasks with earlier
@@ -223,17 +263,17 @@ function purgeActiveTab() {
  */
 function tabSwitch() {
   const main = document.getElementById("main");
-  const tabs = document.querySelectorAll(".main-navbar-item");
+  const tabBtns = document.getElementsByName("main-navbar");
   main.appendChild(renderPendingComponent(pendingProjects));
-  tabs.forEach((tab) => {
-    tab.addEventListener("click", () => {
+  tabBtns.forEach((btn) => {
+    btn.addEventListener("click", () => {
       purgeActiveTab();
-      switch (tab.textContent) {
-        case "Pending":
+      switch (btn.value) {
+        case "pending":
           main.appendChild(renderPendingComponent(pendingProjects));
           break;
-        case "Archive":
-          main.appendChild(renderArchiveComponent(completedProjects));
+        case "archive":
+          main.appendChild(renderArchiveComponent(archiveProjects));
           break;
       }
     });

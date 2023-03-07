@@ -14,7 +14,7 @@ import projectListComponent from "../projectList/projectList";
  */
 export default function archive(completedProjects) {
   const wrapper = document.createElement("div");
-  const projectList = projectListComponent(completedProjects.length);
+  const projectList = projectListComponent(completedProjects);
 
   wrapper.classList.add("main-activeTab");
 
