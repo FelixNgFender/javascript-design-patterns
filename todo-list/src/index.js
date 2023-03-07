@@ -92,7 +92,6 @@ const project = (title, description, priority, tasks, id, completed) => {
  * @param {String} description Description of the task
  * @param {Number} priority Priority of the task
  * @param {String} project Project of the task
- * @param {Number} projectId Id of the project
  * @param {Date} dueDate Due date of the task
  * @param {Boolean} completed Status of the task
  * @return {Object} Task object
@@ -102,7 +101,6 @@ const task = (
   description,
   priority,
   project,
-  projectId,
   dueDate,
   completed
 ) => {
@@ -111,7 +109,6 @@ const task = (
     description,
     priority,
     project,
-    projectId,
     dueDate,
     completed,
   };
@@ -216,11 +213,10 @@ function getTaskFromInput(projectObj) {
   const title = form.elements["title"].value;
   const description = form.elements["description"].value;
   const priority = projectObj.tasks.length;
-  const projectId = projectObj.id;
   const id = Date.now();
   const dueDate = form.elements["dueDate"].value;
   const completed = false;
-  return task(title, description, priority, projectId, id, dueDate, completed);
+  return task(title, description, priority, id, dueDate, completed);
 }
 
 /**
