@@ -58,11 +58,8 @@ function task(projectObj, taskIndex) {
       ", transparent 10%)";
   }
   task.dataset.priority = taskObj.priority;
-  taskTitle.contentEditable = true;
   taskTitle.spellcheck = false;
-  taskDescription.contentEditable = true;
   taskDescription.spellcheck = false;
-  taskDate.contentEditable = true;
   taskExpandBtnText.textContent = "EXPAND";
   taskExpandBtn.addEventListener("click", () => {
     if (taskExpandBtnText.textContent === "EXPAND") {
@@ -320,10 +317,8 @@ function project(index, projectArr) {
     completeProject(projectObj);
   });
   projectTitle.textContent = projectObj.title;
-  projectTitle.contentEditable = true;
   projectTitle.spellcheck = false;
   projectDescription.textContent = projectObj.description;
-  projectDescription.contentEditable = true;
   projectDescription.spellcheck = false;
   projectExpandBtnText.textContent = "EXPAND";
   projectExpandBtn.addEventListener("click", () => {

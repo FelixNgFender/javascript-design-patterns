@@ -61,7 +61,7 @@ export function addProjectPopup() {
  */
 export function addProjectBtn() {
   const addProjectBtn = document.createElement("button");
-  
+
   addProjectBtn.classList.add("main-addProjectBtn");
   addProjectBtn.textContent = "Add Project +";
 

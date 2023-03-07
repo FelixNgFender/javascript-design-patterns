@@ -31,15 +31,15 @@ export default function renderPendingComponent(pendingProjects) {
 /**
  * Refresh the project list in the active tab component.
  * Only use after initialization of activeTab.
- * @param {Array} pendingProjects Array of pending projects
+ * @param {Array} projectArr Array of projects
  * @param {HTMLElement} activeTab Active tab element
  * @return {void}
  * @export
  */
-export function refreshProjectList(pendingProjects) {
+export function refreshProjectList(projectArr) {
   clearProjectList();
   const activeTab = document.querySelector(".main-activeTab");
-  const newProjectList = projectListComponent(pendingProjects);
+  const newProjectList = projectListComponent(projectArr);
   activeTab.appendChild(newProjectList);
 }
 

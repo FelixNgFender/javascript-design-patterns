@@ -80,7 +80,7 @@ body {
 
 .main-icons {
   position: relative;
-  top: .125em;
+  top: 0.125em;
   height: 1em;
   width: 1em;
   margin-left: var(--spacing-xs);
@@ -170,7 +170,7 @@ body {
 }
 
 .main-addProjectForm-description {
-  resize: none;  
+  resize: none;
 }
 
 .main-addProjectForm-confirm,
@@ -237,7 +237,7 @@ body {
 }
 
 .main-addTaskForm-description {
-  resize: none;  
+  resize: none;
 }
 
 .main-addTaskForm-confirm,
@@ -333,7 +333,6 @@ body {
   transition: 0.3s;
 }
 
-
 .main-addTaskBtn {
   grid-column: 2 / -1;
   height: calc(var(--btn-height) / 2);
@@ -396,7 +395,7 @@ body {
 .main-project-deleteBtn,
 .main-task-expandBtn,
 .main-task-deleteBtn {
-  width: var(--fn-btn-width)  
+  width: var(--fn-btn-width);
 }
 
 .main-project-checkbox,
