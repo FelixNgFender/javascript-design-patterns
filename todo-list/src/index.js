@@ -43,10 +43,9 @@ const task = (
   };
 };
 
-const pendingProjects = [];
+const pendingProjects = getPendingProjects();
 
-const completedProjects = [];
-
+const completedProjects = getCompletedProjects();
 
 /**
  * Swap the position of two projects in the input array. Update the priority
@@ -335,3 +334,59 @@ function startApp() {
 }
 
 startApp();
+saveProjects();
+
+// Use localStorage to store pending projects and completed projects
+
+/**
+ * Get the pending projects from localStorage.
+ * @return {Array} Array of project objects
+ */
+function getPendingProjects() {
+  let pendingProjects = [];
+  if (localStorage.getItem("pendingProjects")) {
+    pendingProjects = JSON.parse(localStorage.getItem("pendingProjects"));
+  }
+  return pendingProjects;
+}
+
+/**
+ * Get the completed projects from localStorage.
+ * @return {Array} Array of project objects
+ */
+function getCompletedProjects() {
+  let completedProjects = [];
+  if (localStorage.getItem("completedProjects")) {
+    completedProjects = JSON.parse(localStorage.getItem("completedProjects"));
+  }
+  return completedProjects;
+}
+
+/**
+ * Save the pending projects to localStorage.
+ * @param {Array} pendingProjects Array of project objects
+ * @return {void}
+ */
+function savePendingProjects(pendingProjects) {
+  localStorage.setItem("pendingProjects", JSON.stringify(pendingProjects));
+}
+
+/**
+ * Save the completed projects to localStorage.
+ * @param {Array} completedProjects Array of project objects
+ * @return {void}
+ */
+function saveCompletedProjects(completedProjects) {
+  localStorage.setItem("completedProjects", JSON.stringify(completedProjects));
+}
+
+/**
+ * Save pending projects and completed projects to localStorage when the page is closed.
+ * @return {void}
+ */
+function saveProjects() {
+  window.addEventListener("beforeunload", () => {
+    savePendingProjects(pendingProjects);
+    saveCompletedProjects(completedProjects);
+  });
+}
