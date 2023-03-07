@@ -1,5 +1,5 @@
 /**
- * @fileoverview Components for adding a new project
+ * @fileoverview Button component for adding a new project
  * @author Thinh Nguyen
  * @version 1.0.0
  */
@@ -9,10 +9,30 @@
 import { addProject } from "../../index";
 
 /**
+ * Create an add project button component.
+ * @return {HTMLElement} Add project button
+ * @export
+ */
+export default function addProjectBtn() {
+  const addProjectBtn = document.createElement("button");
+
+  addProjectBtn.classList.add("main-addProjectBtn");
+  addProjectBtn.textContent = "Add Project +";
+
+  addProjectBtn.addEventListener("click", () => {
+    if (document.getElementById("main-addProjectForm")) return;
+    const projectList = document.getElementById("main-projectList");
+    projectList.appendChild(addProjectPopup());
+  });
+
+  return addProjectBtn;
+}
+
+/**
  * Create an add project form component.
  * @return {HTMLElement} Add project form
  */
-export function addProjectPopup() {
+function addProjectPopup() {
   const addProjectForm = document.createElement("form");
   const projectTitle = document.createElement("input");
   const projectDescription = document.createElement("textarea");
@@ -52,24 +72,4 @@ export function addProjectPopup() {
   addProjectForm.appendChild(cancelBtn);
 
   return addProjectForm;
-}
-
-/**
- * Create an add project button component.
- * @return {HTMLElement} Add project button
- * @export
- */
-export function addProjectBtn() {
-  const addProjectBtn = document.createElement("button");
-
-  addProjectBtn.classList.add("main-addProjectBtn");
-  addProjectBtn.textContent = "Add Project +";
-
-  addProjectBtn.addEventListener("click", () => {
-    if (document.getElementById("main-addProjectForm")) return;
-    const projectList = document.getElementById("main-projectList");
-    projectList.appendChild(addProjectPopup());
-  });
-
-  return addProjectBtn;
 }

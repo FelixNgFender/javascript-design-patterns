@@ -6,20 +6,72 @@
 
 "use strict";
 
+/* IMPORTS */
 import pageLoad from "./components/pageLoad";
 import renderPendingComponent, {
   refreshProjectList,
   refreshTaskList,
 } from "./components/pending/pending";
 import renderArchiveComponent from "./components/archive/archive";
-
 import "./styles/styles.css";
 import "./styles/styles-reset.css";
-
 import faviconLink from "./assets/favicon.png";
 
-/* DATA STRUCTURES */
+/* LOCAL STORAGE */
+/**
+ * Get the pending projects from localStorage.
+ * @return {Array} Array of project objects
+ */
+function getPendingProjects() {
+  let pendingProjects = [];
+  if (localStorage.getItem("pendingProjects")) {
+    pendingProjects = JSON.parse(localStorage.getItem("pendingProjects"));
+  }
+  return pendingProjects;
+}
 
+/**
+ * Get the completed projects from localStorage.
+ * @return {Array} Array of project objects
+ */
+function getCompletedProjects() {
+  let completedProjects = [];
+  if (localStorage.getItem("completedProjects")) {
+    completedProjects = JSON.parse(localStorage.getItem("completedProjects"));
+  }
+  return completedProjects;
+}
+
+/**
+ * Save the pending projects to localStorage.
+ * @param {Array} pendingProjects Array of project objects
+ * @return {void}
+ */
+function savePendingProjects(pendingProjects) {
+  localStorage.setItem("pendingProjects", JSON.stringify(pendingProjects));
+}
+
+/**
+ * Save the completed projects to localStorage.
+ * @param {Array} completedProjects Array of project objects
+ * @return {void}
+ */
+function saveCompletedProjects(completedProjects) {
+  localStorage.setItem("completedProjects", JSON.stringify(completedProjects));
+}
+
+/**
+ * Save pending projects and completed projects to localStorage when the page is closed.
+ * @return {void}
+ */
+function saveProjects() {
+  window.addEventListener("beforeunload", () => {
+    savePendingProjects(pendingProjects);
+    saveCompletedProjects(completedProjects);
+  });
+}
+
+/* DATA STRUCTURES */
 /**
  * Create a project object.
  * @param {String} title Title of the project
@@ -69,20 +121,49 @@ const pendingProjects = getPendingProjects();
 
 const completedProjects = getCompletedProjects();
 
+/* DATA MANIPULATION */
 /**
- * Swap the position of two projects in the input array. Update the priority
- * of the projects in the array. Refresh the project list in the active tab component.
- * Because of the project's implementation, priority is the index of the project.
- * @param {Array} projectArr Array of projects.
- * @param {Number} priority1 Index of the first project
- * @param {Number} priority2 Index of the second project
+ * Get project data from user-input form.
+ * @return {void}
  */
-export function swapProject(projectArr, priority1, priority2) {
-  const temp = projectArr[priority1];
-  projectArr[priority1] = projectArr[priority2];
-  projectArr[priority2] = temp;
-  resetPriority(projectArr);
-  refreshProjectList(projectArr);
+function getProjectFromInput() {
+  const form = document.getElementById("main-addProjectForm");
+  const title = form.elements["title"].value;
+  const description = form.elements["description"].value;
+  const priority = pendingProjects.length;
+  const tasks = [];
+  const id = Date.now();
+  const completed = false;
+  return project(title, description, priority, tasks, id, completed);
+}
+
+/**
+ * Add a new project to the pending project list and refresh the project list.
+ * Assume in pending tab.
+ * @return {void}
+ */
+export function addProject() {
+  const newProject = getProjectFromInput();
+  pendingProjects.push(newProject);
+  refreshProjectList(pendingProjects);
+}
+
+/**
+ * Delete the underlying project object at projectIndex and refresh the project list.
+ * Context-sensitive: if in pending tab, delete from pendingProjects; if in archive tab, delete from completedProjects.
+ * @param {Number} projectIndex Index of the project to be deleted
+ */
+export function deleteProject(projectIndex) {
+  const displayMode = getDisplayMode();
+  let workArr = [];
+  if (displayMode === "pending") {
+    workArr = pendingProjects;
+  } else if (displayMode === "archive") {
+    workArr = completedProjects;
+  }
+  workArr.splice(projectIndex, 1);
+  resetPriority(workArr);
+  refreshProjectList(workArr);
 }
 
 /**
@@ -107,6 +188,71 @@ export function completeProject(projectObj) {
   resetPriority(pendingProjects);
   resetPriority(completedProjects);
   refreshProjectList(pendingProjects);
+}
+
+/**
+ * Swap the position of two projects in the input array. Update the priority
+ * of the projects in the array. Refresh the project list in the active tab component.
+ * Because of the project's implementation, priority is the index of the project.
+ * @param {Array} projectArr Array of projects.
+ * @param {Number} priority1 Index of the first project
+ * @param {Number} priority2 Index of the second project
+ */
+export function swapProject(projectArr, priority1, priority2) {
+  const temp = projectArr[priority1];
+  projectArr[priority1] = projectArr[priority2];
+  projectArr[priority2] = temp;
+  resetPriority(projectArr);
+  refreshProjectList(projectArr);
+}
+
+/**
+ * Get task data from user-input form.
+ * @param {project} projectObj Associated project object
+ * @return {task} Task object
+ */
+function getTaskFromInput(projectObj) {
+  const form = document.getElementById("main-addTaskForm-" + projectObj.id);
+  const title = form.elements["title"].value;
+  const description = form.elements["description"].value;
+  const priority = projectObj.tasks.length;
+  const projectId = projectObj.id;
+  const id = Date.now();
+  const dueDate = form.elements["dueDate"].value;
+  const completed = false;
+  return task(title, description, priority, projectId, id, dueDate, completed);
+}
+
+/**
+ * Add a new task to the project object and refresh the task list in the project component.
+ * @param {project} projectObj Associated project object
+ * @return {void}
+ */
+export function addTask(projectObj) {
+  const newTask = getTaskFromInput(projectObj);
+  projectObj.tasks.push(newTask);
+  if (getSortMode(projectObj) === "date") {
+    sortTaskByDate(projectObj.tasks);
+  }
+  refreshTaskList(projectObj);
+}
+
+/**
+ * Delete the underlying task object at taskIndex from the project object and refresh the task list in the project component.
+ * @param {project} projectObj Project object
+ * @param {Number} taskIndex Index of the task to be deleted
+ */
+export function deleteTask(projectObj, taskIndex) {
+  const taskArr = projectObj.tasks;
+  taskArr.splice(taskIndex, 1);
+  if (getSortMode(projectObj) === "priority") {
+    resetPriority(taskArr);
+  } else {
+    sortArrByPriority(taskArr);
+    resetPriority(taskArr);
+    sortTaskByDate(taskArr);
+  }
+  refreshTaskList(projectObj);
 }
 
 /**
@@ -174,37 +320,6 @@ export function resetPriority(arr) {
 }
 
 /**
- * Get task data from user-input form.
- * @param {project} projectObj Associated project object
- * @return {task} Task object
- */
-function getTaskFromInput(projectObj) {
-  const form = document.getElementById("main-addTaskForm-" + projectObj.id);
-  const title = form.elements["title"].value;
-  const description = form.elements["description"].value;
-  const priority = projectObj.tasks.length;
-  const projectId = projectObj.id;
-  const id = Date.now();
-  const dueDate = form.elements["dueDate"].value;
-  const completed = false;
-  return task(title, description, priority, projectId, id, dueDate, completed);
-}
-
-/**
- * Add a new task to the project object and refresh the task list in the project component.
- * @param {project} projectObj Associated project object
- * @return {void}
- */
-export function addTask(projectObj) {
-  const newTask = getTaskFromInput(projectObj);
-  projectObj.tasks.push(newTask);
-  if (getSortMode(projectObj) === "date") {
-    sortTaskByDate(projectObj.tasks);
-  }
-  refreshTaskList(projectObj);
-}
-
-/**
  * Get the sort mode of the project object.
  * @param {project} projectObj Project object
  * @return {String} Sort mode ("priority"/"date")
@@ -220,68 +335,7 @@ function getSortMode(projectObj) {
   return sortMode;
 }
 
-/**
- * Delete the underlying task object at taskIndex from the project object and refresh the task list in the project component.
- * @param {project} projectObj Project object
- * @param {Number} taskIndex Index of the task to be deleted
- */
-export function deleteTask(projectObj, taskIndex) {
-  const taskArr = projectObj.tasks;
-  taskArr.splice(taskIndex, 1);
-  if (getSortMode(projectObj) === "priority") {
-    resetPriority(taskArr);
-  } else {
-    sortArrByPriority(taskArr);
-    resetPriority(taskArr);
-    sortTaskByDate(taskArr);
-  }
-  refreshTaskList(projectObj);
-}
-
-/**
- * Get project data from user-input form.
- * @return {void}
- */
-function getProjectFromInput() {
-  const form = document.getElementById("main-addProjectForm");
-  const title = form.elements["title"].value;
-  const description = form.elements["description"].value;
-  const priority = pendingProjects.length;
-  const tasks = [];
-  const id = Date.now();
-  const completed = false;
-  return project(title, description, priority, tasks, id, completed);
-}
-
-/**
- * Add a new project to the pending project list and refresh the project list.
- * Assume in pending tab.
- * @return {void}
- */
-export function addProject() {
-  const newProject = getProjectFromInput();
-  pendingProjects.push(newProject);
-  refreshProjectList(pendingProjects);
-}
-
-/**
- * Delete the underlying project object at projectIndex and refresh the project list.
- * Context-sensitive: if in pending tab, delete from pendingProjects; if in archive tab, delete from completedProjects.
- * @param {Number} projectIndex Index of the project to be deleted
- */
-export function deleteProject(projectIndex) {
-  const displayMode = getDisplayMode();
-  let workArr = [];
-  if (displayMode === "pending") {
-    workArr = pendingProjects;
-  } else if (displayMode === "archive") {
-    workArr = completedProjects;
-  }
-  workArr.splice(projectIndex, 1);
-  resetPriority(workArr);
-  refreshProjectList(workArr);
-}
-
+/* MAIN APP */
 /**
  * Create favicon.
  * @return {void}
@@ -308,6 +362,21 @@ function purgeActiveTab() {
 }
 
 /**
+ * Get the display mode of the main component.
+ * @return {String} Display mode ("pending"/"archive")
+ */
+function getDisplayMode() {
+  const tabBtns = document.getElementsByName("main-navbar");
+  let displayMode = "";
+  tabBtns.forEach((btn) => {
+    if (btn.checked) {
+      displayMode = btn.value;
+    }
+  });
+  return displayMode;
+}
+
+/**
  * Switch between tabs.
  * @return {void}
  */
@@ -331,21 +400,6 @@ function tabSwitch() {
 }
 
 /**
- * Get the display mode of the main component.
- * @return {String} Display mode ("pending"/"archive")
- */
-function getDisplayMode() {
-  const tabBtns = document.getElementsByName("main-navbar");
-  let displayMode = "";
-  tabBtns.forEach((btn) => {
-    if (btn.checked) {
-      displayMode = btn.value;
-    }
-  });
-  return displayMode;
-}
-
-/**
  * Start the app.
  * @return {void}
  */
@@ -353,62 +407,7 @@ function startApp() {
   createFavicon();
   pageLoad();
   tabSwitch();
+  saveProjects();
 }
 
 startApp();
-saveProjects();
-
-// Use localStorage to store pending projects and completed projects
-
-/**
- * Get the pending projects from localStorage.
- * @return {Array} Array of project objects
- */
-function getPendingProjects() {
-  let pendingProjects = [];
-  if (localStorage.getItem("pendingProjects")) {
-    pendingProjects = JSON.parse(localStorage.getItem("pendingProjects"));
-  }
-  return pendingProjects;
-}
-
-/**
- * Get the completed projects from localStorage.
- * @return {Array} Array of project objects
- */
-function getCompletedProjects() {
-  let completedProjects = [];
-  if (localStorage.getItem("completedProjects")) {
-    completedProjects = JSON.parse(localStorage.getItem("completedProjects"));
-  }
-  return completedProjects;
-}
-
-/**
- * Save the pending projects to localStorage.
- * @param {Array} pendingProjects Array of project objects
- * @return {void}
- */
-function savePendingProjects(pendingProjects) {
-  localStorage.setItem("pendingProjects", JSON.stringify(pendingProjects));
-}
-
-/**
- * Save the completed projects to localStorage.
- * @param {Array} completedProjects Array of project objects
- * @return {void}
- */
-function saveCompletedProjects(completedProjects) {
-  localStorage.setItem("completedProjects", JSON.stringify(completedProjects));
-}
-
-/**
- * Save pending projects and completed projects to localStorage when the page is closed.
- * @return {void}
- */
-function saveProjects() {
-  window.addEventListener("beforeunload", () => {
-    savePendingProjects(pendingProjects);
-    saveCompletedProjects(completedProjects);
-  });
-}

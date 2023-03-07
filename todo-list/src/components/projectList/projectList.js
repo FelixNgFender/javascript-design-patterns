@@ -6,8 +6,8 @@
 
 "use strict";
 
+/* IMPORTS */
 import { addTask as addTask, completeProject, completeTask } from "../../index";
-
 import deleteIcon from "./delete_FILL0_wght400_GRAD0_opsz48.svg";
 import expandIconMore from "./expand_more_FILL0_wght400_GRAD0_opsz48.svg";
 import expandIconLess from "./expand_less_FILL0_wght400_GRAD0_opsz48.svg";
@@ -20,6 +20,151 @@ import {
 } from "../../index";
 import { refreshTaskList } from "../pending/pending";
 
+/* PROJECT LIST COMPONENT */
+/**
+ * Create a project list component with projects.
+ * @param {Array} projectArr Array of projects
+ * @return {HTMLElement} Project list element
+ * @export
+ */
+export default function projectList(projectArr) {
+  const projectList = document.createElement("ul");
+  projectList.classList.add("main-projectList");
+  projectList.id = "main-projectList";
+
+  for (let i = 0; i < projectArr.length; i++) {
+    const projectComponent = project(i, projectArr);
+    projectList.appendChild(projectComponent);
+  }
+
+  return projectList;
+}
+
+/* PROJECT COMPONENT */
+/**
+ * Create a project component.
+ * @param {number} index Index of project in project array
+ * @param {Array} projectArr Associated project object array
+ * @return {HTMLElement} Project element
+ */
+function project(index, projectArr) {
+  const projectObj = projectArr[index];
+  const project = document.createElement("li");
+  const projectCheckbox = document.createElement("input");
+  const projectTitle = document.createElement("h3");
+  const projectDescription = document.createElement("p");
+  const projectExpandBtn = document.createElement("button");
+  const projectExpandBtnText = document.createElement("span");
+  const projectDeleteBtn = document.createElement("button");
+  const projectDeleteBtnText = document.createElement("span");
+  const projectExpandIcon = document.createElement("img");
+  const projectDeleteIcon = document.createElement("img");
+
+  const sortTaskComponent = sortComponent(projectObj);
+  const addTaskBtnComponent = addTaskBtn(projectObj);
+  const projectTaskList = taskList(projectObj);
+
+  project.classList.add("main-project");
+  projectCheckbox.type = "checkbox";
+  projectCheckbox.classList.add("main-project-checkbox");
+  projectTitle.classList.add("main-project-title");
+  projectDescription.classList.add("main-project-description");
+  projectExpandBtn.classList.add("main-project-expandBtn");
+  projectDeleteBtn.classList.add("main-project-deleteBtn");
+  projectExpandIcon.classList.add("main-icons");
+  projectDeleteIcon.classList.add("main-icons");
+
+  if (!projectObj.completed) {
+    project.style.backgroundImage =
+      "linear-gradient(to right, " +
+      getObjColor(index, projectArr) +
+      ", transparent 15%)";
+  }
+  project.draggable = true;
+  project.addEventListener("dragstart", (e) => {
+    e.dataTransfer.setData("text/plain", projectObj.priority);
+    project.style.opacity = 0.5;
+  });
+  project.addEventListener("dragover", (e) => {
+    e.preventDefault();
+  });
+  project.addEventListener("drop", (e) => {
+    const draggedProjectPriority = e.dataTransfer.getData("text/plain");
+    swapProject(projectArr, draggedProjectPriority, projectObj.priority);
+  });
+  project.addEventListener("dragend", (e) => {
+    project.style.opacity = 1;
+  });
+  project.id = "main-project-" + projectObj.id;
+  project.dataset.priority = projectObj.priority;
+  projectCheckbox.checked = projectObj.completed;
+  if (projectObj.completed) projectCheckbox.disabled = true;
+  projectCheckbox.addEventListener("click", () => {
+    completeProject(projectObj);
+  });
+  projectTitle.textContent = projectObj.title;
+  projectTitle.spellcheck = false;
+  projectDescription.textContent = projectObj.description;
+  projectDescription.spellcheck = false;
+  projectExpandBtnText.textContent = "EXPAND";
+  projectExpandBtn.addEventListener("click", () => {
+    if (projectExpandBtnText.textContent === "EXPAND") {
+      projectExpandBtnText.textContent = "COLLAPSE";
+      projectExpandIcon.src = expandIconLess;
+      projectDescription.classList.add("active");
+    } else {
+      projectExpandBtnText.textContent = "EXPAND";
+      projectExpandIcon.src = expandIconMore;
+      projectDescription.classList.remove("active");
+    }
+  });
+  projectDeleteBtnText.textContent = "DELETE";
+  projectDeleteBtn.addEventListener("click", () => {
+    deleteProject(index, projectArr);
+  });
+
+  projectExpandIcon.src = expandIconMore;
+  projectDeleteIcon.src = deleteIcon;
+
+  project.appendChild(projectCheckbox);
+  project.appendChild(projectTitle);
+  projectTitle.appendChild(projectDescription);
+  project.appendChild(projectExpandBtn);
+  project.appendChild(projectDeleteBtn);
+  projectExpandBtn.appendChild(projectExpandBtnText);
+  projectExpandBtn.appendChild(projectExpandIcon);
+  projectDeleteBtn.appendChild(projectDeleteBtnText);
+  projectDeleteBtn.appendChild(projectDeleteIcon);
+  project.appendChild(sortTaskComponent);
+  project.appendChild(addTaskBtnComponent);
+  project.appendChild(projectTaskList);
+
+  return project;
+}
+
+/* TASK LIST COMPONENT */
+/**
+ * Create a task list component associated with a project.
+ * @param {project} projectObj Associated project object
+ * @return {HTMLElement} Task list element
+ * @export
+ */
+export function taskList(projectObj) {
+  const taskList = document.createElement("ul");
+  const taskArr = projectObj.tasks;
+
+  taskList.classList.add("main-project-taskList");
+  taskList.id = "main-project-taskList-" + projectObj.id;
+
+  for (let i = 0; i < taskArr.length; i++) {
+    const taskComponent = task(projectObj, i);
+    taskList.appendChild(taskComponent);
+  }
+
+  return taskList;
+}
+
+/* TASK COMPONENT */
 /**
  * Create a task component from the associated project and the task index.
  * @param {project} projectObj Project object
@@ -182,27 +327,7 @@ function addTaskBtn(projectObj) {
   return addTaskBtn;
 }
 
-/**
- * Create a task list component associated with a project.
- * @param {project} projectObj Associated project object
- * @return {HTMLElement} Task list element
- * @export
- */
-export function taskList(projectObj) {
-  const taskList = document.createElement("ul");
-  const taskArr = projectObj.tasks;
-
-  taskList.classList.add("main-project-taskList");
-  taskList.id = "main-project-taskList-" + projectObj.id;
-
-  for (let i = 0; i < taskArr.length; i++) {
-    const taskComponent = task(projectObj, i);
-    taskList.appendChild(taskComponent);
-  }
-
-  return taskList;
-}
-
+/* SORT TASK COMPONENT */
 /**
  * Create a sort task component associated with a project.
  * @param {project} projectObj Associated project object
@@ -230,7 +355,6 @@ function sortComponent(projectObj) {
   sortTaskByPriorityBtn.name = "sortTask-" + projectObj.id;
   sortTaskByPriorityBtn.id = "sortPriority-" + projectObj.id;
   sortTaskByPriorityBtn.value = "priority";
-  // Default is sort by priority, checked is a boolean attribute
   sortTaskByPriorityBtn.checked = true;
 
   sortTaskByDateBtn.type = "radio";
@@ -271,123 +395,5 @@ function getObjColor(index, objArr) {
   return "rgb(" + red + "," + green + ",0)";
 }
 
-/**
- * Create a project component.
- * @param {number} index Index of project in project array
- * @param {Array} projectArr Associated project object array
- * @return {HTMLElement} Project element
- */
-function project(index, projectArr) {
-  const projectObj = projectArr[index];
-  const project = document.createElement("li");
-  const projectCheckbox = document.createElement("input");
-  const projectTitle = document.createElement("h3");
-  const projectDescription = document.createElement("p");
-  const projectExpandBtn = document.createElement("button");
-  const projectExpandBtnText = document.createElement("span");
-  const projectDeleteBtn = document.createElement("button");
-  const projectDeleteBtnText = document.createElement("span");
-  const projectExpandIcon = document.createElement("img");
-  const projectDeleteIcon = document.createElement("img");
 
-  const sortTaskComponent = sortComponent(projectObj);
-  const addTaskBtnComponent = addTaskBtn(projectObj);
-  const projectTaskList = taskList(projectObj);
 
-  project.classList.add("main-project");
-  projectCheckbox.type = "checkbox";
-  projectCheckbox.classList.add("main-project-checkbox");
-  projectTitle.classList.add("main-project-title");
-  projectDescription.classList.add("main-project-description");
-  projectExpandBtn.classList.add("main-project-expandBtn");
-  projectDeleteBtn.classList.add("main-project-deleteBtn");
-  projectExpandIcon.classList.add("main-icons");
-  projectDeleteIcon.classList.add("main-icons");
-
-  if (!projectObj.completed) {
-    project.style.backgroundImage =
-      "linear-gradient(to right, " +
-      getObjColor(index, projectArr) +
-      ", transparent 15%)";
-  }
-  project.draggable = true;
-  project.addEventListener("dragstart", (e) => {
-    e.dataTransfer.setData("text/plain", projectObj.priority);
-    // Lower opacity when dragging
-    project.style.opacity = 0.5;
-  });
-  project.addEventListener("dragover", (e) => {
-    e.preventDefault();
-  });
-  project.addEventListener("drop", (e) => {
-    const draggedProjectPriority = e.dataTransfer.getData("text/plain");
-    swapProject(projectArr, draggedProjectPriority, projectObj.priority);
-  });
-  project.addEventListener("dragend", (e) => {
-    project.style.opacity = 1;
-  });
-  project.id = "main-project-" + projectObj.id;
-  project.dataset.priority = projectObj.priority;
-  projectCheckbox.checked = projectObj.completed;
-  if (projectObj.completed) projectCheckbox.disabled = true;
-  projectCheckbox.addEventListener("click", () => {
-    completeProject(projectObj);
-  });
-  projectTitle.textContent = projectObj.title;
-  projectTitle.spellcheck = false;
-  projectDescription.textContent = projectObj.description;
-  projectDescription.spellcheck = false;
-  projectExpandBtnText.textContent = "EXPAND";
-  projectExpandBtn.addEventListener("click", () => {
-    if (projectExpandBtnText.textContent === "EXPAND") {
-      projectExpandBtnText.textContent = "COLLAPSE";
-      projectExpandIcon.src = expandIconLess;
-      projectDescription.classList.add("active");
-    } else {
-      projectExpandBtnText.textContent = "EXPAND";
-      projectExpandIcon.src = expandIconMore;
-      projectDescription.classList.remove("active");
-    }
-  });
-  projectDeleteBtnText.textContent = "DELETE";
-  projectDeleteBtn.addEventListener("click", () => {
-    deleteProject(index, projectArr);
-  });
-
-  projectExpandIcon.src = expandIconMore;
-  projectDeleteIcon.src = deleteIcon;
-
-  project.appendChild(projectCheckbox);
-  project.appendChild(projectTitle);
-  projectTitle.appendChild(projectDescription);
-  project.appendChild(projectExpandBtn);
-  project.appendChild(projectDeleteBtn);
-  projectExpandBtn.appendChild(projectExpandBtnText);
-  projectExpandBtn.appendChild(projectExpandIcon);
-  projectDeleteBtn.appendChild(projectDeleteBtnText);
-  projectDeleteBtn.appendChild(projectDeleteIcon);
-  project.appendChild(sortTaskComponent);
-  project.appendChild(addTaskBtnComponent);
-  project.appendChild(projectTaskList);
-
-  return project;
-}
-
-/**
- * Create a project list component with projects.
- * @param {Array} projectArr Array of projects
- * @return {HTMLElement} Project list element
- * @export
- */
-export default function projectList(projectArr) {
-  const projectList = document.createElement("ul");
-  projectList.classList.add("main-projectList");
-  projectList.id = "main-projectList";
-
-  for (let i = 0; i < projectArr.length; i++) {
-    const projectComponent = project(i, projectArr);
-    projectList.appendChild(projectComponent);
-  }
-
-  return projectList;
-}

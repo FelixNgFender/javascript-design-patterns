@@ -8,7 +8,7 @@
 import projectListComponent, {
   taskList as taskListComponent,
 } from "../projectList/projectList";
-import { addProjectBtn as addProjectBtnComponent } from "./addProjectPopup";
+import addProjectBtnComponent from "./addProjectPopup";
 
 /**
  * Create a pending projects component.
