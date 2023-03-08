@@ -4,6 +4,11 @@ module.exports = {
   mode: "development",
   entry: {
     index: "./todo-list/src/index.js",
+    pageLoad: "./todo-list/src/components/pageLoad.js",
+    projectList: "./todo-list/src/components/projectList/projectList.js",
+    addProjectPopup: "./todo-list/src/components/pending/addProjectPopup.js",
+    pending: "./todo-list/src/components/pending/pending.js",
+    archive: "./todo-list/src/components/archive/archive.js",
   },
   devtool: "inline-source-map",
   output: {
@@ -12,6 +17,16 @@ module.exports = {
   },
   module: {
     rules: [
+      {
+        test: /\.m?js$/,
+        exclude: /node_modules/,
+        use: {
+          loader: "babel-loader",
+          options: {
+            presets: [["@babel/preset-env", { targets: "defaults" }]],
+          },
+        },
+      },
       {
         test: /\.css$/i,
         use: ["style-loader", "css-loader"],
@@ -22,7 +37,7 @@ module.exports = {
       },
       {
         test: /\.(woff|woff2|eot|ttf|otf)$/i,
-        type: 'asset/resource',
+        type: "asset/resource",
       },
     ],
   },
